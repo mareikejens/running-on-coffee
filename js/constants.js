@@ -62,6 +62,21 @@ export const STRINGS = {
   mainNoActiveBean: 'No bean in the grinder right now.',
   mainGoToBeans: 'Choose a bean',
 
+  // Comments
+  commentsTitle: 'Notes',
+  commentPlaceholder: 'Write a note…',
+  commentAdd: 'Add',
+  commentSaved: 'Note saved.',
+
+  // History
+  historyButton: 'History',
+  historyBack: '‹ Back',
+  historyRatingsTitle: 'Rating journey',
+  historyCommentsTitle: 'Notes',
+  historyNoRatings: 'No ratings yet.',
+  historyNoComments: 'No notes yet.',
+  historyNoBean: 'No bean selected.',
+
   // Catalog
   catalogActiveTitle: 'In the grinder',
   catalogStockTitle: 'In stock',

@@ -52,6 +52,22 @@
   flex: 1;
 }
 
+.main-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+
+.history-link {
+  margin-left: var(--sp-3);
+  min-height: 44px;
+  padding: 0 var(--sp-2);
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: underline;
+}
+
 /* Stepper */
 .stepper {
   display: flex;

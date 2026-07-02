@@ -32,8 +32,12 @@ function beanRow(bean, actions) {
     'li',
     { class: 'bean-row' },
     el(
-      'div',
-      { class: 'bean-row-info' },
+      'button',
+      {
+        type: 'button',
+        class: 'bean-row-info',
+        onClick: () => navigate('history', { beanId: bean.id }),
+      },
       el('div', { class: 'bean-row-name' }, beanLabel(bean)),
       el('div', { class: 'bean-row-meta' }, beanMeta(bean)),
     ),

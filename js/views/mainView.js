@@ -9,12 +9,20 @@ import { CONFIG } from '../constants.js';
 import { userSwitcher } from '../components/userSwitcher.js';
 import { stepper } from '../components/stepper.js';
 import { starRating } from '../components/starRating.js';
+import { commentsCard } from './commentChipsView.js';
 import { navigate } from './router.js';
 
 function beanHeader(bean) {
   return el('div', { class: 'main-bean' },
     el('div', { class: 'main-bean-name' }, [bean.roastery, bean.name].filter(Boolean).join(' — ')),
-    el('div', { class: 'main-bean-origin' }, bean.origin || ''),
+    el('div', { class: 'main-bean-origin' },
+      bean.origin || '',
+      el('button', {
+        type: 'button',
+        class: 'history-link',
+        onClick: () => navigate('history', { beanId: bean.id }),
+      }, STRINGS.historyButton),
+    ),
   );
 }
 
@@ -46,7 +54,12 @@ async function renderUserPanel(panel, bean, userId) {
     ratingRows,
   );
 
-  panel.replaceChildren(grindCard, ratingsCard);
+  const leftColumn = el('div', { class: 'main-column' },
+    grindCard,
+    commentsCard(bean.id, userId),
+  );
+
+  panel.replaceChildren(leftColumn, ratingsCard);
 }
 
 export async function renderMain(container) {

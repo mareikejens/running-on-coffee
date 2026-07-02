@@ -1,0 +1,80 @@
+/* Per-bean history view */
+.history-header {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-4);
+}
+
+.history-bean {
+  min-width: 0;
+}
+
+.history-columns {
+  display: flex;
+  gap: var(--sp-4);
+  align-items: flex-start;
+}
+
+.history-col {
+  flex: 1;
+  min-width: 0;
+}
+
+.history-row {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-3);
+  min-height: 44px;
+  padding: var(--sp-1) 0;
+}
+
+.history-row + .history-row {
+  border-top: 1px solid var(--line);
+}
+
+.history-stars {
+  color: var(--accent);
+  font-size: var(--text-lg);
+  white-space: nowrap;
+  flex-shrink: 0;
+  min-width: 120px;
+}
+
+.history-what {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.history-when {
+  color: var(--ink-faint);
+  font-size: var(--text-sm);
+  white-space: nowrap;
+}
+
+.history-comment {
+  padding: var(--sp-2) 0;
+}
+
+.history-comment + .history-comment {
+  border-top: 1px solid var(--line);
+}
+
+.history-comment-text {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+}
+
+/* Comment form on main screen */
+.comment-form {
+  display: flex;
+  gap: var(--sp-2);
+  margin-top: var(--sp-3);
+}
+
+.comment-form .form-input {
+  flex: 1;
+}
