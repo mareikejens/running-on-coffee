@@ -5,6 +5,7 @@ import { seedUsers } from './db/users.js';
 import { verifyActiveBeanInvariant } from './db/beans.js';
 import { requestPersistentStorage } from './pwa/persistStorage.js';
 import { registerView, navigate } from './views/router.js';
+import { renderMain } from './views/mainView.js';
 import { renderCatalog } from './views/beanListView.js';
 import { renderAddBean } from './views/addBeanView.js';
 import { renderSettings } from './views/settingsView.js';
@@ -15,6 +16,7 @@ async function boot() {
   await verifyActiveBeanInvariant(); // 3. self-heal active-bean pointer
   await requestPersistentStorage();  // 4. ask browser to protect our data
 
+  registerView('main', 'view-main', renderMain);
   registerView('catalog', 'view-catalog', renderCatalog);
   registerView('add-bean', 'view-add-bean', renderAddBean);
   registerView('settings', 'view-settings', renderSettings);
@@ -23,7 +25,7 @@ async function boot() {
     btn.addEventListener('click', () => navigate(btn.dataset.nav));
   }
 
-  await navigate('catalog');
+  await navigate('main');
 }
 
 boot().catch((err) => {

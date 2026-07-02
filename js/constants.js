@@ -56,6 +56,12 @@ export const STRINGS = {
   navSettings: 'Settings',
   navMain: 'Now brewing',
 
+  // Main screen
+  grindTitle: 'Grind setting',
+  ratingsTitle: 'Ratings',
+  mainNoActiveBean: 'No bean in the grinder right now.',
+  mainGoToBeans: 'Choose a bean',
+
   // Catalog
   catalogActiveTitle: 'In the grinder',
   catalogStockTitle: 'In stock',

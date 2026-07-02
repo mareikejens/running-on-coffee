@@ -11,17 +11,20 @@
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/forms.css">
+  <link rel="stylesheet" href="css/main-screen.css">
 </head>
 <body>
   <div id="app">
     <header id="app-header">
       <h1 id="app-title">Coffee Wall</h1>
       <nav id="app-nav">
+        <button type="button" class="nav-btn" data-nav="main">Now brewing</button>
         <button type="button" class="nav-btn" data-nav="catalog">Beans</button>
         <button type="button" class="nav-btn" data-nav="settings">Settings</button>
       </nav>
     </header>
     <main id="app-main">
+      <section id="view-main" class="view" hidden></section>
       <section id="view-catalog" class="view" hidden></section>
       <section id="view-add-bean" class="view" hidden></section>
       <section id="view-settings" class="view" hidden></section>

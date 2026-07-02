@@ -1,0 +1,142 @@
+/* Main screen — active bean, user switcher, grind + ratings */
+.main-bean {
+  text-align: center;
+  margin-bottom: var(--sp-3);
+}
+
+.main-bean-name {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 600;
+  line-height: 1.15;
+}
+
+.main-bean-origin {
+  color: var(--ink-soft);
+  font-size: var(--text-lg);
+  margin-top: var(--sp-1);
+}
+
+/* User switcher */
+.user-switcher {
+  display: flex;
+  gap: var(--sp-2);
+  margin-bottom: var(--sp-4);
+}
+
+.user-tab {
+  flex: 1;
+  min-height: var(--tap-min);
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: var(--paper-raised);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--ink-soft);
+}
+
+.user-tab.is-selected {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper);
+}
+
+/* Two-column panel: grind left, ratings right */
+.main-panel {
+  display: flex;
+  gap: var(--sp-4);
+  align-items: flex-start;
+}
+
+.main-card {
+  flex: 1;
+}
+
+/* Stepper */
+.stepper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+}
+
+.stepper-btn {
+  width: 96px;
+  height: 96px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--line);
+  background: var(--paper-sunken);
+  font-size: 48px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.stepper-btn:active {
+  background: var(--accent-soft);
+  transform: scale(0.97);
+}
+
+.stepper-value {
+  font-family: var(--font-display);
+  font-size: 64px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  min-width: 130px;
+  text-align: center;
+}
+
+/* Star ratings */
+.rating-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  min-height: var(--tap-min);
+}
+
+.rating-row + .rating-row {
+  border-top: 1px solid var(--line);
+}
+
+.rating-label {
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.stars {
+  position: relative;
+  width: 300px;
+  flex-shrink: 0;
+}
+
+.stars-visual {
+  position: relative;
+  font-size: 44px;
+  line-height: 60px;
+  letter-spacing: 8px;
+  pointer-events: none;
+}
+
+.stars-base {
+  color: var(--line);
+}
+
+.stars-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  color: var(--accent);
+}
+
+.stars-hits {
+  position: absolute;
+  inset: 0;
+  display: flex;
+}
+
+.star-hit {
+  flex: 1;
+  height: 100%;
+}
