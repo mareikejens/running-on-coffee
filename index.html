@@ -6,6 +6,9 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <title>Coffee Wall</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <!-- iOS ignores manifest icons for the Home Screen — this link is mandatory -->
+  <link rel="apple-touch-icon" href="icons/icon-180.png">
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/tokens.css">
   <link rel="stylesheet" href="css/layout.css">
@@ -13,6 +16,7 @@
   <link rel="stylesheet" href="css/forms.css">
   <link rel="stylesheet" href="css/main-screen.css">
   <link rel="stylesheet" href="css/history.css">
+  <link rel="stylesheet" href="css/idle-screen.css">
 </head>
 <body>
   <div id="app">
@@ -32,6 +36,7 @@
       <section id="view-settings" class="view" hidden></section>
     </main>
   </div>
+  <div id="idle-overlay" hidden></div>
   <div id="toast-root" aria-live="polite"></div>
   <script type="module" src="js/main.js"></script>
 </body>

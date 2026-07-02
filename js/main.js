@@ -4,6 +4,8 @@ import { openDB } from './db/db.js';
 import { seedUsers } from './db/users.js';
 import { verifyActiveBeanInvariant } from './db/beans.js';
 import { requestPersistentStorage } from './pwa/persistStorage.js';
+import { registerServiceWorker } from './pwa/swRegister.js';
+import { startIdleController } from './idle/idleController.js';
 import { registerView, navigate } from './views/router.js';
 import { renderMain } from './views/mainView.js';
 import { renderCatalog } from './views/beanListView.js';
@@ -28,6 +30,9 @@ async function boot() {
   }
 
   await navigate('main');
+
+  startIdleController();       // 5. inactivity → the "painting"
+  registerServiceWorker();     // 6. offline shell (never blocks boot)
 }
 
 boot().catch((err) => {

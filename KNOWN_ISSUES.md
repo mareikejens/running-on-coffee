@@ -20,7 +20,23 @@ Simulation covers everything else. Check these during the on-device session.
 - [ ] **Real A9X performance** — all interactions tested at 4–6× CPU throttle
   in desktop Chrome, but real-device rendering may differ.
 - [ ] **Touch precision** — chip/stepper/star targets sized ≥48–60px; verify
-  with actual (wet) fingers.
+  with actual (wet) fingers. Half-star input: left half of a star = n−0.5,
+  right half = n. Verify this feels natural on real touch hardware.
+- [ ] **Offline first Home-Screen launch** — cache-first serving was verified
+  in simulation (file removed from disk still served; cache version bump
+  correctly replaced the old cache). The full "airplane mode → cold launch
+  from Home Screen" path can only be tested on the device.
+- [ ] **Add to Home Screen** — verify the icon (apple-touch-icon 180px), the
+  standalone window (no Safari chrome), and that landscape layout is correct.
+  Note: iOS does not enforce the manifest `orientation` field — physically
+  mount the iPad in landscape.
+- [ ] **Idle screen on device** — 2-minute timeout, wake on tap, and the
+  burn-in pixel shift (every 4 min) verified in simulation; confirm smooth
+  fade-in on real A9X hardware (it's opacity-only, should be fine).
+- [ ] **iOS PWA + IndexedDB quirk history** — older iOS versions had
+  IndexedDB bugs in standalone mode; iOS 16.7 is believed fine, but the first
+  on-device session should include: add data → force-quit → relaunch → data
+  still present, and a device restart for good measure.
 
 ## Notes
 

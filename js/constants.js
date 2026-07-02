@@ -62,6 +62,15 @@ export const STRINGS = {
   mainNoActiveBean: 'No bean in the grinder right now.',
   mainGoToBeans: 'Choose a bean',
 
+  // Idle painting
+  idleKicker: 'Now in the grinder',
+  idleNoBean: 'The grinder is empty.',
+  idleGrindLabel: 'grind',
+  idleNotRated: 'not rated yet',
+
+  // PWA update
+  updateReady: 'Update ready — tap here to reload.',
+
   // Comments
   commentsTitle: 'Notes',
   commentPlaceholder: 'Write a note…',

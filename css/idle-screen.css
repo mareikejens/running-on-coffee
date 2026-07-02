@@ -1,0 +1,121 @@
+/* The idle "painting" — a framed print on the kitchen wall.
+   No animation while idle; entry fade is opacity-only. */
+#idle-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: var(--paper);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+#idle-overlay.is-idle {
+  opacity: 1;
+}
+
+#idle-overlay[hidden] {
+  display: none;
+}
+
+.idle-content {
+  text-align: center;
+  max-width: 860px;
+  padding: var(--sp-5);
+}
+
+.idle-kicker {
+  font-size: var(--text-base);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.35em;
+  color: var(--ink-faint);
+  margin-bottom: var(--sp-4);
+}
+
+.idle-bean-name {
+  font-family: var(--font-display);
+  font-size: var(--text-hero);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: 0.01em;
+}
+
+.idle-empty {
+  color: var(--ink-faint);
+  font-size: var(--text-2xl);
+}
+
+.idle-bean-meta {
+  font-size: var(--text-xl);
+  color: var(--ink-soft);
+  margin-top: var(--sp-3);
+}
+
+.idle-divider {
+  width: 120px;
+  height: 1px;
+  background: var(--line);
+  margin: var(--sp-5) auto;
+}
+
+.idle-users {
+  display: flex;
+  justify-content: center;
+  gap: var(--sp-6);
+}
+
+.idle-user {
+  min-width: 220px;
+}
+
+.idle-user-name {
+  font-size: var(--text-lg);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--ink-soft);
+  margin-bottom: var(--sp-2);
+}
+
+.idle-user-grind {
+  font-family: var(--font-display);
+  font-size: 56px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  margin-bottom: var(--sp-3);
+}
+
+.idle-user-grind-label {
+  display: block;
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink-faint);
+  margin-top: var(--sp-1);
+}
+
+.idle-rating-line {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  font-size: var(--text-base);
+  padding: var(--sp-1) 0;
+}
+
+.idle-rating-milk {
+  color: var(--ink-soft);
+}
+
+.idle-rating-stars {
+  color: var(--accent);
+}
+
+.idle-rating-none {
+  color: var(--ink-faint);
+  justify-content: center;
+}
