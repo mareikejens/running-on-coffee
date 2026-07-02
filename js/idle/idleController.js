@@ -4,6 +4,7 @@
 import { CONFIG } from '../constants.js';
 import { qs } from '../utils/dom.js';
 import { renderIdle } from '../views/idleView.js';
+import { navigate } from '../views/router.js';
 
 let idleTimer = null;
 let shiftTimer = null;
@@ -52,8 +53,18 @@ function wake() {
     // Hide instantly — waking must feel immediate.
     node.classList.remove('is-idle');
     node.hidden = true;
+    // Swallow the click that follows this pointerdown so the wake tap can't
+    // accidentally hit a star/button that is now under the finger.
+    document.addEventListener('click', swallowClick, { capture: true, once: true });
+    // Wake always lands on the primary screen with fresh data.
+    navigate('main');
   }
   armTimer();
+}
+
+function swallowClick(event) {
+  event.stopPropagation();
+  event.preventDefault();
 }
 
 export function startIdleController() {

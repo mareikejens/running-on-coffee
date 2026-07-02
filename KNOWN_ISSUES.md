@@ -3,6 +3,19 @@
 Things that can only be verified on the physical iPad (iOS 16.7, Safari 16).
 Simulation covers everything else. Check these during the on-device session.
 
+## On-device test script (run in order)
+
+1. Open the deployed URL in Safari → Add to Home Screen → launch once online.
+2. App Settings → confirm "Storage is persistent" (else note it and export now).
+3. Add a real bean, make it active, set both grinds, rate, add a note.
+4. Force-quit the app → relaunch → data still there.
+5. Enable Airplane Mode → force-quit → relaunch → app fully works offline.
+6. Wait 2 minutes untouched → idle painting appears → tap → main screen,
+   and the wake tap did NOT change any rating.
+7. Settings → Export → share sheet → save to Files. Open the file — sane JSON.
+8. Restart the iPad → launch → data still there. Disable Airplane Mode.
+9. Set up Guided Access + Auto-Lock Never per DEPLOY.md. Mount. Done.
+
 ## Must verify on device
 
 - [ ] **Persistent storage grant** — `navigator.storage.persist()` returns
