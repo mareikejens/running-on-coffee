@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <title>Coffee Wall</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <!-- iOS ignores manifest icons for the Home Screen — this link is mandatory -->
+  <link rel="apple-touch-icon" href="icons/icon-180.png">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/forms.css">
+  <link rel="stylesheet" href="css/main-screen.css">
+  <link rel="stylesheet" href="css/history.css">
+  <link rel="stylesheet" href="css/idle-screen.css">
+</head>
+<body>
+  <div id="app">
+    <header id="app-header">
+      <h1 id="app-title">Coffee Wall</h1>
+      <nav id="app-nav">
+        <button type="button" class="nav-btn" data-nav="main">Now brewing</button>
+        <button type="button" class="nav-btn" data-nav="catalog">Beans</button>
+        <button type="button" class="nav-btn" data-nav="settings">Settings</button>
+      </nav>
+    </header>
+    <main id="app-main">
+      <section id="view-main" class="view" hidden></section>
+      <section id="view-catalog" class="view" hidden></section>
+      <section id="view-add-bean" class="view" hidden></section>
+      <section id="view-history" class="view" hidden></section>
+      <section id="view-settings" class="view" hidden></section>
+    </main>
+  </div>
+  <div id="idle-overlay" hidden></div>
+  <div id="toast-root" aria-live="polite"></div>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

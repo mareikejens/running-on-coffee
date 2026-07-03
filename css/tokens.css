@@ -1,0 +1,41 @@
+/* Design tokens — light "paper & ink" theme */
+:root {
+  /* Color */
+  --paper: #faf6f0;
+  --paper-raised: #ffffff;
+  --paper-sunken: #f1eae0;
+  --ink: #2b2118;
+  --ink-soft: #6f6257;
+  --ink-faint: #a99c8f;
+  --accent: #8c5a3a;        /* coffee brown */
+  --accent-soft: #e8d9cc;
+  --danger: #a04434;
+  --line: #e3d9cc;
+
+  /* Type — system stack, serif display for hero text */
+  --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --font-display: "New York", "Iowan Old Style", Georgia, "Times New Roman", serif;
+
+  --text-sm: 15px;
+  --text-base: 18px;
+  --text-lg: 22px;
+  --text-xl: 28px;
+  --text-2xl: 40px;
+  --text-hero: 72px;
+
+  /* Spacing */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 16px;
+  --sp-4: 24px;
+  --sp-5: 40px;
+  --sp-6: 64px;
+
+  /* Touch */
+  --tap-min: 60px;          /* wet-finger minimum target */
+  --radius: 10px;
+  --radius-lg: 16px;
+
+  /* Z-index scale */
+  --z-toast: 100;
+}

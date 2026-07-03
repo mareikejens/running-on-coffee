@@ -1,0 +1,108 @@
+/* Add-bean form & settings — large kitchen-friendly inputs */
+.form {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.form-field {
+  margin-bottom: var(--sp-4);
+}
+
+.form-label {
+  display: block;
+  font-weight: 700;
+  margin-bottom: var(--sp-2);
+}
+
+.form-input {
+  width: 100%;
+  min-height: var(--tap-min);
+  padding: 0 var(--sp-3);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--paper-raised);
+  font-size: var(--text-lg);
+}
+
+.form-input:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: -1px;
+}
+
+/* Segmented choice (composition, roast style) */
+.segmented {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+}
+
+.segmented-option {
+  flex: 1 0 auto;
+  min-height: var(--tap-min);
+  padding: 0 var(--sp-3);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--paper-raised);
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+
+.segmented-option.is-selected {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+/* Suggestion chips (previous roasteries / origins) */
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  margin-top: var(--sp-2);
+}
+
+.chip {
+  min-height: 48px;
+  padding: 0 var(--sp-3);
+  border-radius: 999px;
+  background: var(--paper-sunken);
+  border: 1px solid var(--line);
+  color: var(--ink-soft);
+  font-weight: 600;
+}
+
+.chip:active {
+  background: var(--accent-soft);
+}
+
+.form-actions {
+  display: flex;
+  gap: var(--sp-3);
+  margin-top: var(--sp-5);
+}
+
+.form-actions .btn {
+  flex: 1;
+}
+
+.form-error {
+  color: var(--danger);
+  font-weight: 600;
+  margin-bottom: var(--sp-3);
+}
+
+/* Settings */
+.settings-group {
+  margin-bottom: var(--sp-5);
+}
+
+.settings-note {
+  color: var(--ink-soft);
+  font-size: var(--text-sm);
+  margin-top: var(--sp-2);
+}
+
+.settings-warn {
+  color: var(--danger);
+  font-weight: 600;
+}
