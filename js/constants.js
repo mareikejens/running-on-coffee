@@ -72,6 +72,20 @@ export const STRINGS = {
   // PWA update
   updateReady: 'Update ready — tap here to reload.',
 
+  // Stats
+  navStats: 'Stats',
+  statsUserTitle: (name) => `${name}'s favorites`,
+  statsUserEmpty: 'No ratings yet.',
+  statsHouseTitle: 'House stats',
+  statsHouseChampion: 'Top rating',
+  statsHouseTried: 'Beans tried',
+  statsHouseRated: 'Beans rated',
+  statsEmpty: 'Rate a few beans first — favorites show up here.',
+
+  // Speech input
+  micLabel: 'Dictate a note',
+  micError: 'Speech input failed — type instead.',
+
   // Comments
   commentsTitle: 'Notes',
   commentPlaceholder: 'Write a note…',

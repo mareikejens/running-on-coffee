@@ -7,6 +7,7 @@ import { addComment, getCommentsForBean } from '../db/comments.js';
 import { getAllUsers } from '../db/users.js';
 import { formatDate } from '../utils/format.js';
 import { showToast } from '../components/toast.js';
+import { speechButton } from '../components/speechInput.js';
 
 export function commentsCard(beanId, userId) {
   const input = el('input', {
@@ -59,14 +60,25 @@ export function commentsCard(beanId, userId) {
     ),
   );
 
+  // Speech fills the input for review before saving; track the exact text so
+  // an unedited submission is recorded with source 'speech'.
+  let lastSpeechText = null;
+  const mic = speechButton((text) => {
+    input.value = text;
+    lastSpeechText = text;
+    input.focus();
+  });
+
   const form = el('form', {
     class: 'comment-form',
     onSubmit: (e) => {
       e.preventDefault();
-      saveComment(input.value, 'keyboard');
+      const source = input.value === lastSpeechText ? 'speech' : 'keyboard';
+      saveComment(input.value, source);
       input.value = '';
+      lastSpeechText = null;
     },
-  }, input, el('button', { type: 'submit', class: 'btn' }, STRINGS.commentAdd));
+  }, input, mic, el('button', { type: 'submit', class: 'btn' }, STRINGS.commentAdd));
 
   refreshRecent();
 

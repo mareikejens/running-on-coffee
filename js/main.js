@@ -13,6 +13,7 @@ import { renderCatalog } from './views/beanListView.js';
 import { renderAddBean } from './views/addBeanView.js';
 import { renderSettings } from './views/settingsView.js';
 import { renderHistory } from './views/historyView.js';
+import { renderStats } from './views/statsView.js';
 
 async function boot() {
   await openDB();                    // 1. open/create database
@@ -25,6 +26,7 @@ async function boot() {
   registerView('add-bean', 'view-add-bean', renderAddBean);
   registerView('settings', 'view-settings', renderSettings);
   registerView('history', 'view-history', renderHistory);
+  registerView('stats', 'view-stats', renderStats);
 
   for (const btn of document.querySelectorAll('.nav-btn')) {
     btn.addEventListener('click', () => navigate(btn.dataset.nav));

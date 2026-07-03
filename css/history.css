@@ -68,6 +68,54 @@
   font-size: var(--text-lg);
 }
 
+/* Stats view */
+.stat-line {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-3);
+  min-height: 44px;
+  padding: var(--sp-1) 0;
+}
+
+.stat-line + .stat-line {
+  border-top: 1px solid var(--line);
+}
+
+.stat-milk {
+  color: var(--ink-soft);
+  min-width: 110px;
+  flex-shrink: 0;
+}
+
+.stat-bean {
+  flex: 1;
+  min-width: 0;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.stat-stars {
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+.stats-house {
+  margin-top: var(--sp-4);
+}
+
+/* Mic button (speech enhancement) */
+.mic-btn {
+  min-width: var(--tap-min);
+  padding: 0;
+  font-size: 24px;
+}
+
+.mic-btn.is-listening {
+  background: var(--accent);
+}
+
 /* Comment form on main screen */
 .comment-form {
   display: flex;

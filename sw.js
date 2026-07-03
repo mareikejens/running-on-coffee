@@ -4,7 +4,7 @@
 // DISCIPLINE: bump CACHE_VERSION in EVERY commit that touches any file below.
 // The browser refetches sw.js on each navigation, so a bump reliably triggers
 // install → activate → old cache deleted.
-const CACHE_VERSION = 3;
+const CACHE_VERSION = 4;
 const CACHE_NAME = `coffeewall-shell-v${CACHE_VERSION}`;
 
 // Every file individually — ES module imports are separate fetches, each
@@ -45,11 +45,13 @@ const APP_SHELL = [
   './js/views/historyView.js',
   './js/views/commentChipsView.js',
   './js/views/idleView.js',
+  './js/views/statsView.js',
   './js/idle/idleController.js',
   './js/components/toast.js',
   './js/components/stepper.js',
   './js/components/starRating.js',
   './js/components/userSwitcher.js',
+  './js/components/speechInput.js',
   './icons/icon-180.png',
   './icons/icon-192.png',
   './icons/icon-512.png',
@@ -59,7 +61,10 @@ const APP_SHELL = [
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then((cache) => cache.addAll(APP_SHELL))
+      // cache: 'no-cache' bypasses the browser HTTP cache (revalidates with
+      // the server) — otherwise a new SW can install with stale files, since
+      // hosts like GitHub Pages serve with max-age=600.
+      .then((cache) => cache.addAll(APP_SHELL.map((url) => new Request(url, { cache: 'no-cache' }))))
       .then(() => self.skipWaiting()),
   );
 });

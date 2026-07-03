@@ -19,7 +19,17 @@ Fixes for the 2026-07 device feedback — verify on the iPad:
   The app now also requests a Screen Wake Lock (iOS 16.4+) as a backup;
   with Auto-Lock still on, check whether the screen now stays awake anyway.
 - [ ] Update path: open the app once online, wait for the "Update ready"
-  toast and tap it (or force-quit and relaunch) to get v0.6.
+  toast and tap it (or force-quit and relaunch) to get the new version.
+
+## v0.7 new features — verify on device
+
+- [ ] **Speech notes (🎤 button next to the note input)** — only appears if
+  iOS exposes the Web Speech API inside a Home-Screen web app; if you don't
+  see a mic button, iOS doesn't support it there and chips/keyboard remain
+  the way to add notes (expected fallback, not a bug). If it appears: first
+  tap should ask for microphone permission; dictation needs network.
+- [ ] **Stats view** — new "Stats" item in the top navigation; check the
+  favorites match what you'd expect from your ratings.
 
 ## On-device test script (run in order)
 
