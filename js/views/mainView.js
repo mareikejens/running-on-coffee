@@ -14,15 +14,15 @@ import { navigate } from './router.js';
 
 function beanHeader(bean) {
   return el('div', { class: 'main-bean' },
-    el('div', { class: 'main-bean-name' }, [bean.roastery, bean.name].filter(Boolean).join(' — ')),
-    el('div', { class: 'main-bean-origin' },
-      bean.origin || '',
-      el('button', {
-        type: 'button',
-        class: 'history-link',
-        onClick: () => navigate('history', { beanId: bean.id }),
-      }, STRINGS.historyButton),
+    el('div', { class: 'main-bean-text' },
+      el('div', { class: 'main-bean-name' }, [bean.roastery, bean.name].filter(Boolean).join(' — ')),
+      el('div', { class: 'main-bean-origin' }, bean.origin || ''),
     ),
+    el('button', {
+      type: 'button',
+      class: 'btn main-history-btn',
+      onClick: () => navigate('history', { beanId: bean.id }),
+    }, STRINGS.historyButton),
   );
 }
 

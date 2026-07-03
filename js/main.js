@@ -5,6 +5,7 @@ import { seedUsers } from './db/users.js';
 import { verifyActiveBeanInvariant } from './db/beans.js';
 import { requestPersistentStorage } from './pwa/persistStorage.js';
 import { registerServiceWorker } from './pwa/swRegister.js';
+import { startWakeLock } from './pwa/wakeLock.js';
 import { startIdleController } from './idle/idleController.js';
 import { registerView, navigate } from './views/router.js';
 import { renderMain } from './views/mainView.js';
@@ -33,6 +34,7 @@ async function boot() {
 
   startIdleController();       // 5. inactivity → the "painting"
   registerServiceWorker();     // 6. offline shell (never blocks boot)
+  startWakeLock();             // 7. keep the display awake (iOS 16.4+)
 }
 
 boot().catch((err) => {

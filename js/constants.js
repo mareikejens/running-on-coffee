@@ -13,6 +13,7 @@ export const CONFIG = {
   burnInShiftPx: 6,
   exportReminderDays: 30,
   toastMs: 2500,
+  recentNotesShown: 3,
 };
 
 export const USERS = [
@@ -76,6 +77,7 @@ export const STRINGS = {
   commentPlaceholder: 'Write a note…',
   commentAdd: 'Add',
   commentSaved: 'Note saved.',
+  notesMore: (n) => `+ ${n} older — see History`,
 
   // History
   historyButton: 'History',

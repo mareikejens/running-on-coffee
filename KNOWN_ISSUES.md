@@ -3,6 +3,24 @@
 Things that can only be verified on the physical iPad (iOS 16.7, Safari 16).
 Simulation covers everything else. Check these during the on-device session.
 
+## v0.6 re-test (after the first on-device round)
+
+Fixes for the 2026-07 device feedback — verify on the iPad:
+
+- [ ] **Star ratings now save** — rebuilt without empty transparent overlay
+  buttons (the v0.5 pattern was untappable on iOS Safari). Tap any star half;
+  the fill and the number next to the row must update, and the rating must
+  appear in an export.
+- [ ] **Notes are visible on the main screen** — the latest 3 notes show in
+  the Notes card with author and date; History is now a real button next to
+  the bean name.
+- [ ] **Screen sleep** — set iPad Settings → Display & Brightness →
+  Auto-Lock → **Never** (this was the reason the painting never appeared).
+  The app now also requests a Screen Wake Lock (iOS 16.4+) as a backup;
+  with Auto-Lock still on, check whether the screen now stays awake anyway.
+- [ ] Update path: open the app once online, wait for the "Update ready"
+  toast and tap it (or force-quit and relaunch) to get v0.6.
+
 ## On-device test script (run in order)
 
 1. Open the deployed URL in Safari → Add to Home Screen → launch once online.

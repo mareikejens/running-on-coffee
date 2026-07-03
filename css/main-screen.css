@@ -1,7 +1,20 @@
 /* Main screen — active bean, user switcher, grind + ratings */
 .main-bean {
-  text-align: center;
+  display: flex;
+  align-items: center;
   margin-bottom: var(--sp-3);
+}
+
+.main-bean-text {
+  flex: 1;
+  text-align: center;
+  /* keep the name optically centered despite the History button */
+  padding-left: 120px;
+}
+
+.main-history-btn {
+  flex-shrink: 0;
+  min-width: 120px;
 }
 
 .main-bean-name {
@@ -59,13 +72,29 @@
   gap: var(--sp-4);
 }
 
-.history-link {
-  margin-left: var(--sp-3);
-  min-height: 44px;
-  padding: 0 var(--sp-2);
-  color: var(--accent);
-  font-weight: 600;
-  text-decoration: underline;
+/* Recent notes on the main screen */
+.recent-notes {
+  margin-bottom: var(--sp-3);
+}
+
+.recent-note {
+  padding: var(--sp-1) 0;
+  font-size: var(--text-base);
+}
+
+.recent-note-text {
+  font-family: var(--font-display);
+}
+
+.recent-note-meta {
+  color: var(--ink-faint);
+  font-size: var(--text-sm);
+}
+
+.recent-note-more {
+  color: var(--ink-faint);
+  font-size: var(--text-sm);
+  padding-top: var(--sp-1);
 }
 
 /* Stepper */
@@ -120,39 +149,59 @@
 }
 
 .stars {
-  position: relative;
-  width: 300px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
   flex-shrink: 0;
 }
 
-.stars-visual {
-  position: relative;
-  font-size: 44px;
-  line-height: 60px;
-  letter-spacing: 8px;
-  pointer-events: none;
+.star-cell {
+  display: flex;
+  width: 56px;
+  height: 60px;
 }
 
-.stars-base {
+/* Each half-button holds the full glyph and clips to its half — real content
+   in every tap target (empty overlay buttons are untappable on iOS Safari). */
+.star-half {
+  position: relative;
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
   color: var(--line);
 }
 
-.stars-fill {
-  position: absolute;
-  top: 0;
-  left: 0;
-  overflow: hidden;
-  white-space: nowrap;
+.star-half.is-filled {
   color: var(--accent);
 }
 
-.stars-hits {
-  position: absolute;
-  inset: 0;
-  display: flex;
+.star-half:active {
+  transform: scale(0.94);
 }
 
-.star-hit {
-  flex: 1;
-  height: 100%;
+.star-glyph {
+  position: absolute;
+  top: 0;
+  width: 56px;
+  font-size: 44px;
+  line-height: 60px;
+  text-align: center;
+  pointer-events: none;
+}
+
+.star-half-left .star-glyph {
+  left: 0;
+}
+
+.star-half-right .star-glyph {
+  left: -28px;
+}
+
+.stars-value {
+  min-width: 52px;
+  margin-left: var(--sp-2);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-soft);
+  text-align: right;
 }
