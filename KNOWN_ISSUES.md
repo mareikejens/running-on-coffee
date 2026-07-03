@@ -21,6 +21,17 @@ Fixes for the 2026-07 device feedback — verify on the iPad:
 - [ ] Update path: open the app once online, wait for the "Update ready"
   toast and tap it (or force-quit and relaunch) to get the new version.
 
+## v0.8 changes — verify on device
+
+- [ ] **Bean bar** — open two bags (Beans → "Open bag" on a sealed bean);
+  the main screen shows chips for all open bags, one tap switches which one
+  you're logging grind/ratings/notes for. The painting shows the current bag
+  plus a small "Also open" line.
+- [ ] **Existing data** — all beans/ratings/notes from before the update must
+  still be there (the model change needs no migration; verify anyway).
+- [ ] **Price & bought-at fields** — visible in the add-bean form and in the
+  catalog rows; included in exports.
+
 ## v0.7 new features — verify on device
 
 - [ ] **Speech notes (🎤 button next to the note input)** — only appears if

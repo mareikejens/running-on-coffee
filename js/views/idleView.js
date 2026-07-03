@@ -3,7 +3,7 @@
 // and ratings. Re-rendered fresh each time idle begins.
 import { el, clear } from '../utils/dom.js';
 import { STRINGS, MILK_TYPES, ROAST_STYLES } from '../constants.js';
-import { getActiveBean } from '../db/beans.js';
+import { getCurrentBean, getOpenBeans } from '../db/beans.js';
 import { getGrindsForBean } from '../db/grindSettings.js';
 import { getCurrentRatingsForBean } from '../db/ratings.js';
 import { formatGrind } from '../utils/format.js';
@@ -38,7 +38,7 @@ function userColumn(displayName, grindRow, userRatings) {
 
 export async function renderIdle(container) {
   clear(container);
-  const bean = await getActiveBean();
+  const bean = await getCurrentBean();
 
   if (!bean) {
     container.appendChild(
@@ -50,10 +50,14 @@ export async function renderIdle(container) {
     return;
   }
 
-  const [grinds, ratings] = await Promise.all([
+  const [grinds, ratings, openBeans] = await Promise.all([
     getGrindsForBean(bean.id),
     getCurrentRatingsForBean(bean.id),
+    getOpenBeans(),
   ]);
+  const otherOpen = openBeans
+    .filter((b) => b.id !== bean.id)
+    .map((b) => [b.roastery, b.name].filter(Boolean).join(' — '));
   const grindByUser = {};
   for (const row of grinds) grindByUser[row.userId] = row;
 
@@ -74,6 +78,9 @@ export async function renderIdle(container) {
           userColumn(names[userId], grindByUser[userId], ratings[userId]),
         ),
       ),
+      otherOpen.length > 0
+        ? el('div', { class: 'idle-also-open' }, STRINGS.idleAlsoOpen(otherOpen.join(' · ')))
+        : null,
     ),
   );
 }

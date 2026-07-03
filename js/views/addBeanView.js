@@ -2,7 +2,7 @@
 // where possible — tap a chip to fill the field.
 import { el, qs } from '../utils/dom.js';
 import { STRINGS, COMPOSITIONS, ROAST_STYLES } from '../constants.js';
-import { addBean, setActiveBean, distinctFieldValues } from '../db/beans.js';
+import { addBean, openBean, distinctFieldValues } from '../db/beans.js';
 import { navigate } from './router.js';
 import { showToast } from '../components/toast.js';
 
@@ -34,9 +34,10 @@ function chipRow(values, input) {
 }
 
 export async function renderAddBean(container) {
-  const [roasteries, origins] = await Promise.all([
+  const [roasteries, origins, places] = await Promise.all([
     distinctFieldValues('roastery'),
     distinctFieldValues('origin'),
+    distinctFieldValues('purchasePlace'),
   ]);
 
   const state = {
@@ -53,6 +54,15 @@ export async function renderAddBean(container) {
   const originInput = el('input', {
     class: 'form-input', type: 'text', autocomplete: 'off',
     placeholder: STRINGS.originPlaceholder,
+  });
+  // inputmode=decimal brings up the number pad on iOS without number-input quirks
+  const priceInput = el('input', {
+    class: 'form-input', type: 'text', inputmode: 'decimal', autocomplete: 'off',
+    placeholder: STRINGS.pricePlaceholder,
+  });
+  const placeInput = el('input', {
+    class: 'form-input', type: 'text', autocomplete: 'off',
+    placeholder: STRINGS.purchasePlacePlaceholder,
   });
   const errorBox = el('div', { class: 'form-error' });
   errorBox.hidden = true;
@@ -78,9 +88,11 @@ export async function renderAddBean(container) {
       },
       origin: originInput.value,
       roastStyle: state.roastStyle,
+      pricePerKg: parseFloat(priceInput.value.replace(',', '.')),
+      purchasePlace: placeInput.value,
     });
-    if (makeActive) await setActiveBean(bean.id);
-    showToast(makeActive ? STRINGS.beanActivated : STRINGS.beanSaved);
+    if (makeActive) await openBean(bean.id);
+    showToast(makeActive ? STRINGS.beanOpened : STRINGS.beanSaved);
     navigate('catalog');
   }
 
@@ -115,6 +127,15 @@ export async function renderAddBean(container) {
         segmented('roastStyle', ROAST_STYLES, state.roastStyle, (id) => {
           state.roastStyle = id;
         }),
+      ),
+      el('div', { class: 'form-field' },
+        el('label', { class: 'form-label' }, STRINGS.fieldPrice),
+        priceInput,
+      ),
+      el('div', { class: 'form-field' },
+        el('label', { class: 'form-label' }, STRINGS.fieldPurchasePlace),
+        placeInput,
+        chipRow(places, placeInput),
       ),
       el('div', { class: 'form-actions' },
         el('button', { type: 'button', class: 'btn', onClick: () => navigate('catalog') },

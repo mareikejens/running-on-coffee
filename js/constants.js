@@ -14,6 +14,7 @@ export const CONFIG = {
   exportReminderDays: 30,
   toastMs: 2500,
   recentNotesShown: 3,
+  currency: 'CHF',
 };
 
 export const USERS = [
@@ -60,14 +61,15 @@ export const STRINGS = {
   // Main screen
   grindTitle: 'Grind setting',
   ratingsTitle: 'Ratings',
-  mainNoActiveBean: 'No bean in the grinder right now.',
+  mainNoActiveBean: 'No open bag right now.',
   mainGoToBeans: 'Choose a bean',
 
   // Idle painting
-  idleKicker: 'Now in the grinder',
-  idleNoBean: 'The grinder is empty.',
+  idleKicker: 'Now brewing',
+  idleNoBean: 'No open bag.',
   idleGrindLabel: 'grind',
   idleNotRated: 'not rated yet',
+  idleAlsoOpen: (names) => `Also open: ${names}`,
 
   // PWA update
   updateReady: 'Update ready — tap here to reload.',
@@ -103,16 +105,16 @@ export const STRINGS = {
   historyNoBean: 'No bean selected.',
 
   // Catalog
-  catalogActiveTitle: 'In the grinder',
-  catalogStockTitle: 'In stock',
+  catalogOpenTitle: 'Open bags',
+  catalogStockTitle: 'In stock (sealed)',
   catalogArchivedTitle: 'Finished beans',
   catalogAddBean: 'Add bean',
   catalogEmpty: 'No beans yet. Add your first bag.',
-  catalogNoActive: 'No bean in the grinder. Tap a bean below to make it active.',
-  actionMakeActive: 'Make active',
+  catalogNoOpen: 'No open bags. Open one from the stock below.',
+  actionOpenBag: 'Open bag',
   actionArchive: 'Finish',
   actionRestock: 'Back to stock',
-  badgeActive: 'Active',
+  badgeBrewing: 'Now brewing',
   badgeArchived: 'Finished',
 
   // Add-bean form
@@ -125,8 +127,12 @@ export const STRINGS = {
   fieldOrigin: 'Origin',
   originPlaceholder: 'e.g. Rwanda',
   fieldRoastStyle: 'Roast style',
+  fieldPrice: 'Price per kg (CHF, optional)',
+  pricePlaceholder: 'e.g. 24.50',
+  fieldPurchasePlace: 'Bought at (optional)',
+  purchasePlacePlaceholder: 'e.g. Vertical Coffee Bar, Zürich',
   saveToStock: 'Save to stock',
-  saveAndActivate: 'Save & make active',
+  saveAndActivate: 'Save & open bag',
   cancel: 'Cancel',
   errorNameRequired: 'Give the bean a name (roastery or bean name).',
 
@@ -148,7 +154,7 @@ export const STRINGS = {
 
   // Toasts
   beanSaved: 'Bean saved.',
-  beanActivated: 'Bean is now in the grinder.',
+  beanOpened: 'Bag opened — now brewing.',
   beanArchived: 'Bean finished.',
   beanRestocked: 'Bean moved back to stock.',
 };

@@ -2,7 +2,7 @@
 // plus all comments (newest first). Reached from the main screen or catalog.
 import { el } from '../utils/dom.js';
 import { STRINGS, MILK_TYPES } from '../constants.js';
-import { getBean, getActiveBean } from '../db/beans.js';
+import { getBean, getCurrentBean } from '../db/beans.js';
 import { getRatingHistory } from '../db/ratings.js';
 import { getCommentsForBean } from '../db/comments.js';
 import { getAllUsers } from '../db/users.js';
@@ -14,7 +14,7 @@ function starsText(stars) {
 }
 
 export async function renderHistory(container, params = {}) {
-  const bean = params.beanId ? await getBean(params.beanId) : await getActiveBean();
+  const bean = params.beanId ? await getBean(params.beanId) : await getCurrentBean();
 
   if (!bean) {
     container.appendChild(

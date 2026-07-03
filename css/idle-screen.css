@@ -119,3 +119,12 @@
   color: var(--ink-faint);
   justify-content: center;
 }
+
+.idle-also-open {
+  margin-top: var(--sp-5);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}

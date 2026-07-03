@@ -27,3 +27,13 @@ Then open http://localhost:8790 — any static file server works.
 
 See `DEPLOY.md` (from v0.5) for hosting and iPad kiosk setup, and
 `KNOWN_ISSUES.md` for the on-device test checklist.
+
+## Roadmap (parked, not built)
+
+- **Flavor profiles per bean** — tasting-wheel categories (citrus, stone
+  fruits, chocolate, nutty, floral, …) as tap-to-select tags on a bean,
+  optionally visualised as a wheel. Data model sketch: `flavorTags: string[]`
+  on the bean row (additive, no migration needed).
+- **Purchase-place map** — `purchasePlace` (since v0.8) is a free-text field;
+  could later resolve to coordinates and render location pins in Stats.
+- Multi-guest support (separate guest identities).

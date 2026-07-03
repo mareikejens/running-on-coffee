@@ -30,6 +30,36 @@
   margin-top: var(--sp-1);
 }
 
+/* Bean bar — one-tap switch between open bags (hidden when only one) */
+.bean-bar {
+  display: flex;
+  gap: var(--sp-2);
+  margin-bottom: var(--sp-3);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.bean-bar-chip {
+  flex-shrink: 0;
+  min-height: 52px;
+  max-width: 320px;
+  padding: 0 var(--sp-3);
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--paper-raised);
+  font-weight: 600;
+  color: var(--ink-soft);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bean-bar-chip.is-selected {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
 /* User switcher */
 .user-switcher {
   display: flex;

@@ -1,7 +1,7 @@
 // The primary kitchen screen: active bean → tap your name → grind or stars.
 import { el } from '../utils/dom.js';
 import { STRINGS, MILK_TYPES } from '../constants.js';
-import { getActiveBean } from '../db/beans.js';
+import { getCurrentBean, getOpenBeans, selectCurrentBean } from '../db/beans.js';
 import { getAllUsers, getLastActiveUserId, setLastActiveUserId } from '../db/users.js';
 import { getGrind, setGrind } from '../db/grindSettings.js';
 import { addRating, getCurrentRatings } from '../db/ratings.js';
@@ -62,8 +62,26 @@ async function renderUserPanel(panel, bean, userId) {
   panel.replaceChildren(leftColumn, ratingsCard);
 }
 
+// One-tap switcher between open bags. Hidden when only one bag is open.
+function beanBar(openBeans, currentId) {
+  if (openBeans.length < 2) return null;
+  return el('div', { class: 'bean-bar' },
+    openBeans.map((bean) =>
+      el('button', {
+        type: 'button',
+        class: `bean-bar-chip${bean.id === currentId ? ' is-selected' : ''}`,
+        onClick: async () => {
+          if (bean.id === currentId) return;
+          await selectCurrentBean(bean.id);
+          navigate('main');
+        },
+      }, [bean.roastery, bean.name].filter(Boolean).join(' — ')),
+    ),
+  );
+}
+
 export async function renderMain(container) {
-  const bean = await getActiveBean();
+  const [bean, openBeans] = await Promise.all([getCurrentBean(), getOpenBeans()]);
 
   if (!bean) {
     container.appendChild(
@@ -75,6 +93,10 @@ export async function renderMain(container) {
     );
     return;
   }
+
+  openBeans.sort((a, b) => a.dateAdded.localeCompare(b.dateAdded));
+  const bar = beanBar(openBeans, bean.id);
+  if (bar) container.appendChild(bar);
 
   const [users, lastUserId] = await Promise.all([getAllUsers(), getLastActiveUserId()]);
   // Keep the fixed display order from constants, not store order.
