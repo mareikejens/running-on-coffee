@@ -9,6 +9,7 @@ export const CONFIG = {
   grindStep: 0.1,
   grindDefault: 5.0,
   idleTimeoutMs: 2 * 60 * 1000,        // 2 min to idle "painting"
+  idleCheckMs: 10 * 1000,              // watchdog tick (wall-clock comparison)
   burnInShiftMs: 4 * 60 * 1000,        // nudge idle layout every 4 min
   burnInShiftPx: 6,
   exportReminderDays: 30,
@@ -151,6 +152,9 @@ export const STRINGS = {
   exportSuccess: 'Backup exported.',
   storagePersisted: 'Storage is persistent — data is protected.',
   storageNotPersisted: 'Storage persistence not granted — export regularly!',
+  idleDiag: (d) =>
+    `Painting: shown ${d.idleShownCount}× since launch · last activity ${d.secondsSinceActivity}s ago` +
+    (d.lastError ? ` · last error: ${d.lastError}` : ''),
 
   // Toasts
   beanSaved: 'Bean saved.',

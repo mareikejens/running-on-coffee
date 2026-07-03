@@ -21,6 +21,18 @@ Fixes for the 2026-07 device feedback — verify on the iPad:
 - [ ] Update path: open the app once online, wait for the "Update ready"
   toast and tap it (or force-quit and relaunch) to get the new version.
 
+## v0.9 — idle painting fix, verify on device
+
+- [ ] **Painting appears after 2 min untouched** (with Auto-Lock = Never).
+  The old implementation used one long timer that iOS silently suspends in
+  standalone web apps; it's now a short wall-clock watchdog that survives
+  suspension, plus an immediate check when the app becomes visible — so if
+  the iPad slept past the timeout, the painting appears right on wake.
+- [ ] **If it still doesn't appear:** open Settings in the app and read the
+  "Painting: shown N× since launch · last activity Xs ago" line (bottom).
+  Report that line — it distinguishes "timer never fired" (N stays 0 while
+  the activity age exceeds 2 min) from "render failed" (an error is shown).
+
 ## v0.8 changes — verify on device
 
 - [ ] **Bean bar** — open two bags (Beans → "Open bag" on a sealed bean);

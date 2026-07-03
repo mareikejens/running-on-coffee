@@ -4,6 +4,7 @@ import { STRINGS, CONFIG } from '../constants.js';
 import { exportToFile, importFromFile } from '../db/backup.js';
 import { getMeta } from '../db/meta.js';
 import { daysSince } from '../utils/format.js';
+import { getIdleDiagnostics } from '../idle/idleController.js';
 import { navigate } from './router.js';
 import { showToast } from '../components/toast.js';
 
@@ -67,6 +68,7 @@ export async function renderSettings(container) {
         el('p', {
           class: `settings-note${persisted ? '' : ' settings-warn'}`,
         }, persisted ? STRINGS.storagePersisted : STRINGS.storageNotPersisted),
+        el('p', { class: 'settings-note' }, STRINGS.idleDiag(getIdleDiagnostics())),
       ),
     ),
   );
