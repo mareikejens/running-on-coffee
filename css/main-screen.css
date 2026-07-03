@@ -60,6 +60,12 @@
   color: #fff;
 }
 
+.bean-bar-add {
+  border-style: dashed;
+  background: transparent;
+  color: var(--ink-faint);
+}
+
 /* User switcher */
 .user-switcher {
   display: flex;

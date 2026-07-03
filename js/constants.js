@@ -63,6 +63,7 @@ export const STRINGS = {
   grindTitle: 'Grind setting',
   ratingsTitle: 'Ratings',
   mainNoActiveBean: 'No open bag right now.',
+  beanBarOpenAnother: '+ Open bag',
   mainGoToBeans: 'Choose a bean',
 
   // Idle painting

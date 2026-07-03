@@ -62,9 +62,9 @@ async function renderUserPanel(panel, bean, userId) {
   panel.replaceChildren(leftColumn, ratingsCard);
 }
 
-// One-tap switcher between open bags. Hidden when only one bag is open.
+// One-tap switcher between open bags. Always visible once anything is open —
+// the trailing "+ Open bag" chip makes the multi-bag feature discoverable.
 function beanBar(openBeans, currentId) {
-  if (openBeans.length < 2) return null;
   return el('div', { class: 'bean-bar' },
     openBeans.map((bean) =>
       el('button', {
@@ -77,6 +77,11 @@ function beanBar(openBeans, currentId) {
         },
       }, [bean.roastery, bean.name].filter(Boolean).join(' — ')),
     ),
+    el('button', {
+      type: 'button',
+      class: 'bean-bar-chip bean-bar-add',
+      onClick: () => navigate('catalog'),
+    }, STRINGS.beanBarOpenAnother),
   );
 }
 
@@ -95,8 +100,7 @@ export async function renderMain(container) {
   }
 
   openBeans.sort((a, b) => a.dateAdded.localeCompare(b.dateAdded));
-  const bar = beanBar(openBeans, bean.id);
-  if (bar) container.appendChild(bar);
+  container.appendChild(beanBar(openBeans, bean.id));
 
   const [users, lastUserId] = await Promise.all([getAllUsers(), getLastActiveUserId()]);
   // Keep the fixed display order from constants, not store order.
