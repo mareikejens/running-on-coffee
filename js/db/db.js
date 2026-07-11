@@ -30,6 +30,11 @@ export function openDB() {
         db.createObjectStore('users', { keyPath: 'id' });
         db.createObjectStore('meta', { keyPath: 'key' });
       }
+      if (event.oldVersion < 2) {
+        // v2: bag photos — one cut-out PNG blob per bean, stored out of the
+        // bean row so bean records stay light.
+        db.createObjectStore('photos', { keyPath: 'beanId' });
+      }
     };
     request.onsuccess = () => resolve(request.result);
     request.onerror = () => reject(request.error);

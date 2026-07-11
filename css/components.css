@@ -81,6 +81,34 @@
   min-width: 0;
   flex: 1;
   text-align: left;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+}
+
+.bean-row-text {
+  min-width: 0;
+  flex: 1;
+}
+
+/* Bag cut-out thumbnail — recognize the bag at a glance (and in the shop) */
+.bean-thumb {
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+  border-radius: var(--radius);
+  background: var(--paper-sunken);
+  padding: 3px;
+}
+
+.bean-thumb-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  color: var(--ink-faint);
 }
 
 .bean-row-name {

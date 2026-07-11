@@ -1,9 +1,11 @@
-// Fix a roastery/name typo after the bean has already been logged. Grind
-// settings, ratings and comments are keyed by beanId, not by name, so
-// updating these two fields in place never touches that history.
+// Fix a roastery/name typo — or add a bag photo — after the bean has already
+// been logged. Grind settings, ratings and comments are keyed by beanId, not
+// by name, so updating these fields in place never touches that history.
 import { el } from '../utils/dom.js';
 import { STRINGS } from '../constants.js';
 import { getBean, updateBean } from '../db/beans.js';
+import { setPhoto, deletePhoto, getPhotoUrl } from '../db/photos.js';
+import { photoPicker } from '../components/photoPicker.js';
 import { navigate } from './router.js';
 import { showToast } from '../components/toast.js';
 
@@ -30,6 +32,8 @@ export async function renderEditBean(container, params = {}) {
   const errorBox = el('div', { class: 'form-error' });
   errorBox.hidden = true;
 
+  const picker = photoPicker(await getPhotoUrl(bean.id));
+
   async function save() {
     if (!roasteryInput.value.trim() && !nameInput.value.trim()) {
       errorBox.textContent = STRINGS.errorNameRequired;
@@ -37,6 +41,11 @@ export async function renderEditBean(container, params = {}) {
       return;
     }
     await updateBean(bean.id, { roastery: roasteryInput.value, name: nameInput.value });
+    const photo = await picker.getResult();
+    if (photo.changed) {
+      if (photo.blob) await setPhoto(bean.id, photo.blob);
+      else await deletePhoto(bean.id);
+    }
     showToast(STRINGS.beanUpdated);
     navigate('catalog');
   }
@@ -53,6 +62,7 @@ export async function renderEditBean(container, params = {}) {
         el('label', { class: 'form-label' }, STRINGS.fieldName),
         nameInput,
       ),
+      picker.node,
       el('div', { class: 'form-actions' },
         el('button', { type: 'button', class: 'btn', onClick: () => navigate('catalog') },
           STRINGS.cancel),

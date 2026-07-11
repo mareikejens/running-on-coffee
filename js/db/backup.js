@@ -4,9 +4,29 @@
 import { DB_VERSION, STRINGS } from '../constants.js';
 import { getAll, withTx, reqAsPromise } from './db.js';
 import { setMeta } from './meta.js';
+import { clearPhotoUrlCache } from './photos.js';
 import { nowIso } from '../utils/format.js';
 
+// Plain JSON stores; photos hold blobs and get base64 treatment separately.
 const STORES = ['beans', 'grindSettings', 'ratings', 'comments', 'users', 'meta'];
+
+function blobToDataUrl(blob) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = () => reject(reader.error);
+    reader.readAsDataURL(blob);
+  });
+}
+
+function dataUrlToBlob(dataUrl) {
+  const comma = dataUrl.indexOf(',');
+  const type = dataUrl.slice(5, dataUrl.indexOf(';'));
+  const binary = atob(dataUrl.slice(comma + 1));
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+  return new Blob([bytes], { type });
+}
 
 export async function exportAll() {
   const payload = {
@@ -17,6 +37,15 @@ export async function exportAll() {
   for (const store of STORES) {
     payload[store] = await getAll(store);
   }
+  // Bag photos ride along as data URLs so one JSON file restores everything.
+  const photoRows = await getAll('photos');
+  payload.photos = await Promise.all(
+    photoRows.map(async (row) => ({
+      beanId: row.beanId,
+      updatedAt: row.updatedAt,
+      dataUrl: await blobToDataUrl(row.blob),
+    })),
+  );
   return payload;
 }
 
@@ -67,19 +96,39 @@ export function validateBackup(payload) {
   for (const row of payload.meta) {
     if (typeof row.key !== 'string') throw new Error('meta row without key');
   }
+  // photos arrived in schema v2 — absent in older backups, which stay valid.
+  for (const row of payload.photos || []) {
+    if (typeof row.beanId !== 'string' || !beanIds.has(row.beanId)) {
+      throw new Error('photo with missing/unknown bean');
+    }
+    if (typeof row.dataUrl !== 'string' || !row.dataUrl.startsWith('data:image/')) {
+      throw new Error(`photo for bean ${row.beanId} has invalid image data`);
+    }
+  }
   return true;
 }
 
 // Full replace: clear every store, then write the payload's rows — atomically.
 export async function importAll(payload) {
   validateBackup(payload);
-  await withTx(STORES, async (tx) => {
+  // Decode photo data URLs BEFORE the transaction — IndexedDB transactions
+  // auto-commit if you await non-IDB work inside them.
+  const photoRows = (payload.photos || []).map((row) => ({
+    beanId: row.beanId,
+    updatedAt: row.updatedAt,
+    blob: dataUrlToBlob(row.dataUrl),
+  }));
+  await withTx([...STORES, 'photos'], async (tx) => {
     for (const storeName of STORES) {
       const store = tx.objectStore(storeName);
       await reqAsPromise(store.clear());
       for (const row of payload[storeName]) store.put(row);
     }
+    const photos = tx.objectStore('photos');
+    await reqAsPromise(photos.clear());
+    for (const row of photoRows) photos.put(row);
   });
+  clearPhotoUrlCache();
 }
 
 export async function exportToFile() {

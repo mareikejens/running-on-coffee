@@ -3,6 +3,8 @@
 import { el, qs } from '../utils/dom.js';
 import { STRINGS, COMPOSITIONS, ROAST_STYLES } from '../constants.js';
 import { addBean, openBean, distinctFieldValues } from '../db/beans.js';
+import { setPhoto } from '../db/photos.js';
+import { photoPicker } from '../components/photoPicker.js';
 import { navigate } from './router.js';
 import { showToast } from '../components/toast.js';
 
@@ -73,6 +75,8 @@ export async function renderAddBean(container) {
   );
   ratioField.hidden = state.composition !== 'arabicaRobusta';
 
+  const picker = photoPicker(null);
+
   async function save(makeActive) {
     if (!roasteryInput.value.trim() && !nameInput.value.trim()) {
       errorBox.textContent = STRINGS.errorNameRequired;
@@ -91,6 +95,8 @@ export async function renderAddBean(container) {
       pricePerKg: parseFloat(priceInput.value.replace(',', '.')),
       purchasePlace: placeInput.value,
     });
+    const photo = await picker.getResult();
+    if (photo.changed && photo.blob) await setPhoto(bean.id, photo.blob);
     if (makeActive) await openBean(bean.id);
     showToast(makeActive ? STRINGS.beanOpened : STRINGS.beanSaved);
     navigate('catalog');
@@ -109,6 +115,7 @@ export async function renderAddBean(container) {
         el('label', { class: 'form-label' }, STRINGS.fieldName),
         nameInput,
       ),
+      picker.node,
       el('div', { class: 'form-field' },
         el('label', { class: 'form-label' }, STRINGS.fieldComposition),
         segmented('composition', COMPOSITIONS, state.composition, (id) => {
