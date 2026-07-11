@@ -1,7 +1,7 @@
 // All UI strings and tunable config live here — the only file to touch for copy changes.
 
 export const DB_NAME = 'coffeewall-db';
-export const DB_VERSION = 1;
+export const DB_VERSION = 2;
 
 export const CONFIG = {
   grindMin: 1.0,
@@ -16,6 +16,8 @@ export const CONFIG = {
   toastMs: 2500,
   recentNotesShown: 3,
   currency: 'CHF',
+  photoMaxDim: 800,       // processing size of a bag photo (px, longest side)
+  photoTrimDefault: 35,   // background-trim slider default (0–100)
 };
 
 export const USERS = [
@@ -69,7 +71,6 @@ export const STRINGS = {
   // Idle painting
   idleKicker: 'Now brewing',
   idleNoBean: 'No open bag.',
-  idleGrindLabel: 'grind',
   idleNotRated: 'not rated yet',
   idleAlsoOpen: (names) => `Also open: ${names}`,
 
@@ -143,6 +144,17 @@ export const STRINGS = {
   saveChanges: 'Save changes',
   actionEdit: 'Edit',
   beanUpdated: 'Bean updated — grind settings and history are unchanged.',
+
+  // Bag photo
+  fieldPhoto: 'Bag photo',
+  photoTake: 'Take photo',
+  photoRetake: 'Retake',
+  photoRemove: 'Remove photo',
+  photoTrimLabel: 'Background trim',
+  photoModeCutout: 'Cut out bag',
+  photoModeOriginal: 'Keep photo',
+  photoHint: 'Shoot the bag against a plain background for the cleanest cut-out.',
+  photoError: 'Could not read that photo — try again.',
 
   // Settings / backup
   settingsTitle: 'Settings',

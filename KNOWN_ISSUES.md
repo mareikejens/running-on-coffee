@@ -21,6 +21,25 @@ Fixes for the 2026-07 device feedback — verify on the iPad:
 - [ ] Update path: open the app once online, wait for the "Update ready"
   toast and tap it (or force-quit and relaunch) to get the new version.
 
+## v0.11 — bag photos, verify on device
+
+- [ ] **Camera opens from the form** — Beans → Edit (or Add bean) → "Take
+  photo" must open the rear camera directly inside the standalone PWA
+  (it's a file input with `capture`; if iOS shows a chooser with
+  Photo Library options instead, that's acceptable — note which happens).
+- [ ] **Cut-out quality** — shoot a bag against the counter/wall; the
+  background should vanish. Nudge the "Background trim" slider if edges
+  remain; switch to "Keep photo" if the background is too busy to cut.
+- [ ] **Thumbnails in the catalog** — every bean with a photo shows its bag
+  next to the name.
+- [ ] **Painting** — with a photo on the brewing bean, the idle screen shows
+  the bag beside the name (grind numbers are gone from the painting by
+  design — they're on the main screen).
+- [ ] **Export size** — photos are embedded in the JSON backup; with several
+  photos the file grows to a few MB. Verify the share sheet still handles it.
+- [ ] **Existing data after the update** — the database migrates from v1 to
+  v2 (new photos store); all beans/ratings/notes must survive.
+
 ## v0.9 — idle painting fix, verify on device
 
 - [ ] **Painting appears after 2 min untouched** (with Auto-Lock = Never).

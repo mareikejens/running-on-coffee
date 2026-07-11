@@ -1,12 +1,13 @@
-// The "painting" — what the kitchen sees 95% of the time. Typography only,
-// zero animation. Shows the active bean and both flatmates' current grind
-// and ratings. Re-rendered fresh each time idle begins.
+// The "painting" — what the kitchen sees 95% of the time. Zero animation.
+// Shows the bag cut-out (when one was photographed) floating beside the
+// current bean's name and both flatmates' verdicts. Grind numbers live on
+// the main screen only — the painting is for recognizing and remembering
+// the bean, not for dialing it in.
 import { el, clear } from '../utils/dom.js';
 import { STRINGS, MILK_TYPES, ROAST_STYLES } from '../constants.js';
 import { getCurrentBean, getOpenBeans } from '../db/beans.js';
-import { getGrindsForBean } from '../db/grindSettings.js';
 import { getCurrentRatingsForBean } from '../db/ratings.js';
-import { formatGrind } from '../utils/format.js';
+import { getPhotoUrl } from '../db/photos.js';
 
 const PAINTING_USERS = ['mareike', 'frenzi']; // guests don't hang in the painting
 
@@ -14,7 +15,7 @@ function starsText(stars) {
   return '★'.repeat(Math.floor(stars)) + (stars % 1 ? '½' : '');
 }
 
-function userColumn(displayName, grindRow, userRatings) {
+function userColumn(displayName, userRatings) {
   const ratingLines = MILK_TYPES
     .filter((milk) => userRatings && userRatings[milk.id])
     .map((milk) =>
@@ -26,10 +27,6 @@ function userColumn(displayName, grindRow, userRatings) {
 
   return el('div', { class: 'idle-user' },
     el('div', { class: 'idle-user-name' }, displayName),
-    el('div', { class: 'idle-user-grind' },
-      grindRow ? formatGrind(grindRow.value) : '—',
-      el('span', { class: 'idle-user-grind-label' }, STRINGS.idleGrindLabel),
-    ),
     ratingLines.length > 0
       ? ratingLines
       : el('div', { class: 'idle-rating-line idle-rating-none' }, STRINGS.idleNotRated),
@@ -50,37 +47,42 @@ export async function renderIdle(container) {
     return;
   }
 
-  const [grinds, ratings, openBeans] = await Promise.all([
-    getGrindsForBean(bean.id),
+  const [ratings, openBeans, photoUrl] = await Promise.all([
     getCurrentRatingsForBean(bean.id),
     getOpenBeans(),
+    getPhotoUrl(bean.id),
   ]);
   const otherOpen = openBeans
     .filter((b) => b.id !== bean.id)
     .map((b) => [b.roastery, b.name].filter(Boolean).join(' — '));
-  const grindByUser = {};
-  for (const row of grinds) grindByUser[row.userId] = row;
 
   const roast = ROAST_STYLES.find((r) => r.id === bean.roastStyle);
   const metaLine = [bean.origin, roast ? roast.label : ''].filter(Boolean).join(' · ');
 
   const names = { mareike: 'Mareike', frenzi: 'Frenzi' };
 
+  const textBlock = el('div', { class: 'idle-text' },
+    el('div', { class: 'idle-kicker' }, STRINGS.idleKicker),
+    el('div', { class: 'idle-bean-name' },
+      [bean.roastery, bean.name].filter(Boolean).join(' — ')),
+    metaLine ? el('div', { class: 'idle-bean-meta' }, metaLine) : null,
+    el('div', { class: 'idle-divider' }),
+    el('div', { class: 'idle-users' },
+      PAINTING_USERS.map((userId) => userColumn(names[userId], ratings[userId])),
+    ),
+    otherOpen.length > 0
+      ? el('div', { class: 'idle-also-open' }, STRINGS.idleAlsoOpen(otherOpen.join(' · ')))
+      : null,
+  );
+
+  // With a photo: bag cut-out beside the text, a two-part composition.
+  // Without: the text keeps the original centered layout.
   container.appendChild(
-    el('div', { class: 'idle-content' },
-      el('div', { class: 'idle-kicker' }, STRINGS.idleKicker),
-      el('div', { class: 'idle-bean-name' },
-        [bean.roastery, bean.name].filter(Boolean).join(' — ')),
-      metaLine ? el('div', { class: 'idle-bean-meta' }, metaLine) : null,
-      el('div', { class: 'idle-divider' }),
-      el('div', { class: 'idle-users' },
-        PAINTING_USERS.map((userId) =>
-          userColumn(names[userId], grindByUser[userId], ratings[userId]),
-        ),
-      ),
-      otherOpen.length > 0
-        ? el('div', { class: 'idle-also-open' }, STRINGS.idleAlsoOpen(otherOpen.join(' · ')))
+    el('div', { class: `idle-content${photoUrl ? ' has-photo' : ''}` },
+      photoUrl
+        ? el('div', { class: 'idle-photo' }, el('img', { src: photoUrl, alt: '' }))
         : null,
+      textBlock,
     ),
   );
 }

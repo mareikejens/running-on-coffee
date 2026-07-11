@@ -4,7 +4,7 @@
 // DISCIPLINE: bump CACHE_VERSION in EVERY commit that touches any file below.
 // The browser refetches sw.js on each navigation, so a bump reliably triggers
 // install → activate → old cache deleted.
-const CACHE_VERSION = 9;
+const CACHE_VERSION = 10;
 const CACHE_NAME = `coffeewall-shell-v${CACHE_VERSION}`;
 
 // Every file individually — ES module imports are separate fetches, each
@@ -30,6 +30,7 @@ const APP_SHELL = [
   './js/db/grindSettings.js',
   './js/db/ratings.js',
   './js/db/comments.js',
+  './js/db/photos.js',
   './js/db/backup.js',
   './js/pwa/persistStorage.js',
   './js/pwa/swRegister.js',
@@ -48,11 +49,13 @@ const APP_SHELL = [
   './js/views/idleView.js',
   './js/views/statsView.js',
   './js/idle/idleController.js',
+  './js/photo/cutout.js',
   './js/components/toast.js',
   './js/components/stepper.js',
   './js/components/starRating.js',
   './js/components/userSwitcher.js',
   './js/components/speechInput.js',
+  './js/components/photoPicker.js',
   './icons/icon-180.png',
   './icons/icon-192.png',
   './icons/icon-512.png',

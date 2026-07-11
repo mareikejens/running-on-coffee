@@ -10,11 +10,19 @@ import {
   restockBean,
 } from '../db/beans.js';
 import { getMeta } from '../db/meta.js';
+import { getAllPhotoUrls } from '../db/photos.js';
 import { navigate } from './router.js';
 import { showToast } from '../components/toast.js';
 
 function beanLabel(bean) {
   return [bean.roastery, bean.name].filter(Boolean).join(' — ');
+}
+
+// Bag cut-out thumbnail, or the bean's initial as a quiet placeholder.
+function beanThumb(bean, photoUrl) {
+  if (photoUrl) return el('img', { class: 'bean-thumb', src: photoUrl, alt: '' });
+  const initial = (beanLabel(bean).trim()[0] || '·').toUpperCase();
+  return el('span', { class: 'bean-thumb bean-thumb-empty' }, initial);
 }
 
 function beanMeta(bean) {
@@ -34,7 +42,7 @@ function beanMeta(bean) {
     .join(' · ');
 }
 
-function beanRow(bean, actions) {
+function beanRow(bean, photoUrl, actions) {
   return el(
     'li',
     { class: 'bean-row' },
@@ -45,8 +53,11 @@ function beanRow(bean, actions) {
         class: 'bean-row-info',
         onClick: () => navigate('history', { beanId: bean.id }),
       },
-      el('div', { class: 'bean-row-name' }, beanLabel(bean)),
-      el('div', { class: 'bean-row-meta' }, beanMeta(bean)),
+      beanThumb(bean, photoUrl),
+      el('div', { class: 'bean-row-text' },
+        el('div', { class: 'bean-row-name' }, beanLabel(bean)),
+        el('div', { class: 'bean-row-meta' }, beanMeta(bean)),
+      ),
     ),
     el('div', { class: 'bean-row-actions' }, actions),
   );
@@ -57,7 +68,11 @@ async function rerender() {
 }
 
 export async function renderCatalog(container) {
-  const [beans, currentId] = await Promise.all([getAllBeans(), getMeta('activeBeanId')]);
+  const [beans, currentId, photoUrls] = await Promise.all([
+    getAllBeans(),
+    getMeta('activeBeanId'),
+    getAllPhotoUrls(),
+  ]);
   beans.sort((a, b) => b.dateAdded.localeCompare(a.dateAdded));
 
   const open = beans.filter((b) => b.state === BEAN_STATE.OPEN);
@@ -82,7 +97,7 @@ export async function renderCatalog(container) {
       el('div', { class: 'card' },
         el('ul', {},
           open.map((bean) =>
-            beanRow(bean, [
+            beanRow(bean, photoUrls.get(bean.id), [
               bean.id === currentId
                 ? el('span', { class: 'badge badge-active' }, STRINGS.badgeBrewing)
                 : null,
@@ -124,7 +139,7 @@ export async function renderCatalog(container) {
       el('div', { class: 'card' },
         el('ul', {},
           stock.map((bean) =>
-            beanRow(bean, [
+            beanRow(bean, photoUrls.get(bean.id), [
               el('button', {
                 class: 'btn',
                 onClick: () => navigate('edit-bean', { beanId: bean.id }),
@@ -158,7 +173,7 @@ export async function renderCatalog(container) {
       el('div', { class: 'card' },
         el('ul', {},
           archived.map((bean) =>
-            beanRow(bean, [
+            beanRow(bean, photoUrls.get(bean.id), [
               el('span', { class: 'badge badge-archived' }, STRINGS.badgeArchived),
               el('button', {
                 class: 'btn',

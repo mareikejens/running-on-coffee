@@ -30,6 +30,43 @@
   padding: var(--sp-5);
 }
 
+/* With a bag photo: cut-out beside the text, like a still life. */
+.idle-content.has-photo {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-6);
+  text-align: left;
+  max-width: 1100px;
+}
+
+.idle-photo {
+  flex: 0 0 auto;
+}
+
+.idle-photo img {
+  display: block;
+  max-height: 56vh;
+  max-width: 34vw;
+  border-radius: 12px; /* invisible on cut-outs, tidies "keep photo" shots */
+  filter: drop-shadow(0 16px 26px rgba(43, 33, 24, 0.25));
+}
+
+.idle-content.has-photo .idle-bean-name {
+  font-size: 56px;
+}
+
+.idle-content.has-photo .idle-divider {
+  margin: var(--sp-4) 0;
+}
+
+.idle-content.has-photo .idle-users {
+  justify-content: flex-start;
+}
+
+.idle-content.has-photo .idle-user {
+  min-width: 180px;
+}
+
 .idle-kicker {
   font-size: var(--text-base);
   font-weight: 700;
@@ -84,30 +121,12 @@
   margin-bottom: var(--sp-2);
 }
 
-.idle-user-grind {
-  font-family: var(--font-display);
-  font-size: 56px;
-  font-weight: 600;
-  font-variant-numeric: tabular-nums;
-  margin-bottom: var(--sp-3);
-}
-
-.idle-user-grind-label {
-  display: block;
-  font-family: var(--font-body);
-  font-size: var(--text-sm);
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--ink-faint);
-  margin-top: var(--sp-1);
-}
-
 .idle-rating-line {
   display: flex;
   justify-content: space-between;
   gap: var(--sp-3);
-  font-size: var(--text-base);
+  /* ratings carry the user columns now that grind numbers moved out */
+  font-size: var(--text-lg);
   padding: var(--sp-1) 0;
 }
 

@@ -22,6 +22,7 @@ Then open http://localhost:8790 — any static file server works.
 - `index.html` — single-page shell; views are sections toggled by `js/views/router.js`
 - `js/constants.js` — all UI strings and tunable config in one place
 - `js/db/` — IndexedDB layer (schema in `db.js`, one module per entity)
+- `js/photo/` — on-device bag-photo processing (background cut-out)
 - `js/views/` — view renderers
 - `css/` — tokens-first light theme ("paper & ink")
 
