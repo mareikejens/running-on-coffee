@@ -26,8 +26,8 @@ export const USERS = [
 
 export const MILK_TYPES = [
   { id: 'oat', label: 'Oat milk' },
-  { id: 'soy', label: 'Soy milk' },
   { id: 'cow', label: 'Cow milk' },
+  { id: 'pea', label: 'Pea milk' },
   { id: 'black', label: 'Black / none' },
 ];
 
@@ -137,6 +137,12 @@ export const STRINGS = {
   saveAndActivate: 'Save & open bag',
   cancel: 'Cancel',
   errorNameRequired: 'Give the bean a name (roastery or bean name).',
+
+  // Edit-bean form
+  editBeanTitle: 'Edit bean',
+  saveChanges: 'Save changes',
+  actionEdit: 'Edit',
+  beanUpdated: 'Bean updated — grind settings and history are unchanged.',
 
   // Settings / backup
   settingsTitle: 'Settings',
