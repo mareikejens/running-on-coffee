@@ -40,6 +40,21 @@ export function getBean(id) {
   return get('beans', id);
 }
 
+// Fix a roastery/name typo after the fact. Only these two fields change —
+// the bean keeps its id, so grind settings, ratings and comments (all keyed
+// by beanId) stay attached without any migration.
+export function updateBean(id, { roastery, name }) {
+  return withTx('beans', async (tx) => {
+    const store = tx.objectStore('beans');
+    const bean = await reqAsPromise(store.get(id));
+    if (!bean) throw new Error(`Bean not found: ${id}`);
+    bean.roastery = (roastery || '').trim();
+    bean.name = (name || '').trim();
+    store.put(bean);
+    return bean;
+  });
+}
+
 export function getAllBeans() {
   return getAll('beans');
 }

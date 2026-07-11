@@ -11,6 +11,7 @@ import { registerView, navigate } from './views/router.js';
 import { renderMain } from './views/mainView.js';
 import { renderCatalog } from './views/beanListView.js';
 import { renderAddBean } from './views/addBeanView.js';
+import { renderEditBean } from './views/editBeanView.js';
 import { renderSettings } from './views/settingsView.js';
 import { renderHistory } from './views/historyView.js';
 import { renderStats } from './views/statsView.js';
@@ -24,6 +25,7 @@ async function boot() {
   registerView('main', 'view-main', renderMain);
   registerView('catalog', 'view-catalog', renderCatalog);
   registerView('add-bean', 'view-add-bean', renderAddBean);
+  registerView('edit-bean', 'view-edit-bean', renderEditBean);
   registerView('settings', 'view-settings', renderSettings);
   registerView('history', 'view-history', renderHistory);
   registerView('stats', 'view-stats', renderStats);

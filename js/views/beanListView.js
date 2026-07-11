@@ -88,6 +88,10 @@ export async function renderCatalog(container) {
                 : null,
               el('button', {
                 class: 'btn',
+                onClick: () => navigate('edit-bean', { beanId: bean.id }),
+              }, STRINGS.actionEdit),
+              el('button', {
+                class: 'btn',
                 onClick: async () => {
                   await restockBean(bean.id);
                   showToast(STRINGS.beanRestocked);
@@ -123,6 +127,10 @@ export async function renderCatalog(container) {
             beanRow(bean, [
               el('button', {
                 class: 'btn',
+                onClick: () => navigate('edit-bean', { beanId: bean.id }),
+              }, STRINGS.actionEdit),
+              el('button', {
+                class: 'btn',
                 onClick: async () => {
                   await openBean(bean.id);
                   showToast(STRINGS.beanOpened);
@@ -152,6 +160,10 @@ export async function renderCatalog(container) {
           archived.map((bean) =>
             beanRow(bean, [
               el('span', { class: 'badge badge-archived' }, STRINGS.badgeArchived),
+              el('button', {
+                class: 'btn',
+                onClick: () => navigate('edit-bean', { beanId: bean.id }),
+              }, STRINGS.actionEdit),
               el('button', {
                 class: 'btn',
                 onClick: async () => {
