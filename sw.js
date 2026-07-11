@@ -4,7 +4,7 @@
 // DISCIPLINE: bump CACHE_VERSION in EVERY commit that touches any file below.
 // The browser refetches sw.js on each navigation, so a bump reliably triggers
 // install → activate → old cache deleted.
-const CACHE_VERSION = 8;
+const CACHE_VERSION = 9;
 const CACHE_NAME = `coffeewall-shell-v${CACHE_VERSION}`;
 
 // Every file individually — ES module imports are separate fetches, each
