@@ -1,7 +1,9 @@
 # Coffee Wall
 
 A coffee bean tracking PWA for the wall-mounted kitchen iPad. Mareike, Frenzi,
-and guests rate beans per milk type and track their grind settings.
+and guests rate beans per milk type — star ratings are the one thing that
+stays personal. The grind setting and the notes card are shared by the whole
+house (since v0.12); every note is signed with its author.
 
 - **Target:** iPad Pro 9.7" (A9X), iOS 16 Safari, landscape 1024×768, installed
   as a Home Screen PWA.
@@ -24,7 +26,8 @@ Then open http://localhost:8790 — any static file server works.
 - `js/db/` — IndexedDB layer (schema in `db.js`, one module per entity)
 - `js/photo/` — on-device bag-photo processing (background cut-out)
 - `js/views/` — view renderers
-- `css/` — tokens-first light theme ("paper & ink")
+- `css/` — tokens-first light theme ("Cream & Ember": warm paper neutrals,
+  one burnt-ember pop accent, pine-teal author tags)
 
 See `DEPLOY.md` (from v0.5) for hosting and iPad kiosk setup, and
 `KNOWN_ISSUES.md` for the on-device test checklist.

@@ -10,6 +10,17 @@
   min-width: 0;
 }
 
+/* Bag cut-out beside the bean name, on the same accent disc as elsewhere */
+.history-bean-photo {
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  padding: 4px;
+}
+
 .history-columns {
   display: flex;
   gap: var(--sp-4);

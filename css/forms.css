@@ -53,6 +53,10 @@
   color: #fff;
 }
 
+.segmented-option:active {
+  background: var(--accent-soft);
+}
+
 /* Suggestion chips (previous roasteries / origins) */
 .chip-row {
   display: flex;

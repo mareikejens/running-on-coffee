@@ -6,7 +6,7 @@
   min-height: var(--tap-min);
   padding: 0 var(--sp-4);
   border-radius: var(--radius);
-  background: var(--paper-sunken);
+  background: var(--paper-raised);
   color: var(--ink);
   font-size: var(--text-base);
   font-weight: 600;
@@ -15,12 +15,17 @@
 
 .btn:active {
   transform: scale(0.97);
+  background: var(--accent-soft);
 }
 
 .btn-primary {
   background: var(--accent);
   border-color: var(--accent);
   color: #fff;
+}
+
+.btn-primary:active {
+  background: var(--accent-deep);
 }
 
 .btn-danger {
@@ -37,14 +42,14 @@
 .nav-btn {
   min-height: 48px;
   padding: 0 var(--sp-3);
-  border-radius: var(--radius);
+  border-radius: 999px;
   font-weight: 600;
   color: var(--ink-soft);
 }
 
 .nav-btn.is-active {
-  background: var(--accent-soft);
-  color: var(--ink);
+  background: var(--accent);
+  color: #fff;
 }
 
 /* Cards & lists */
@@ -53,15 +58,35 @@
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
   padding: var(--sp-3) var(--sp-4);
+  box-shadow: var(--shadow-card);
 }
 
+/* Section titles carry a small ember tick — the accent shows up in tiny,
+   repeated doses rather than big fields. */
 .section-title {
   font-size: var(--text-sm);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--ink-faint);
+  color: var(--ink-soft);
   margin: var(--sp-4) 0 var(--sp-2);
+}
+
+.section-title::before {
+  content: '';
+  display: inline-block;
+  width: 18px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--accent);
+  margin-right: var(--sp-2);
+  vertical-align: 3px;
+}
+
+.card-note {
+  color: var(--ink-faint);
+  font-size: var(--text-sm);
+  margin-top: var(--sp-2);
 }
 
 .bean-row {
@@ -91,15 +116,16 @@
   flex: 1;
 }
 
-/* Bag cut-out thumbnail — recognize the bag at a glance (and in the shop) */
+/* Bag cut-out thumbnail — recognize the bag at a glance (and in the shop).
+   Cut-outs sit on a soft accent-tint disc so they pop off the row. */
 .bean-thumb {
   flex-shrink: 0;
   width: 56px;
   height: 56px;
   object-fit: contain;
-  border-radius: var(--radius);
-  background: var(--paper-sunken);
-  padding: 3px;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  padding: 4px;
 }
 
 .bean-thumb-empty {
@@ -108,7 +134,8 @@
   justify-content: center;
   font-family: var(--font-display);
   font-size: var(--text-xl);
-  color: var(--ink-faint);
+  color: var(--mocha);
+  background: var(--paper-sunken);
 }
 
 .bean-row-name {

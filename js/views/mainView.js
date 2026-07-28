@@ -1,10 +1,13 @@
-// The primary kitchen screen: active bean → tap your name → grind or stars.
+// The primary kitchen screen: active bean with its bag cut-out, one shared
+// grind dial and notes card, and per-user star ratings behind the name tabs —
+// only taste stays personal (since v0.12).
 import { el } from '../utils/dom.js';
 import { STRINGS, MILK_TYPES } from '../constants.js';
 import { getCurrentBean, getOpenBeans, selectCurrentBean } from '../db/beans.js';
 import { getAllUsers, getLastActiveUserId, setLastActiveUserId } from '../db/users.js';
 import { getGrind, setGrind } from '../db/grindSettings.js';
 import { addRating, getCurrentRatings } from '../db/ratings.js';
+import { getPhotoUrl, getAllPhotoUrls } from '../db/photos.js';
 import { CONFIG } from '../constants.js';
 import { userSwitcher } from '../components/userSwitcher.js';
 import { stepper } from '../components/stepper.js';
@@ -12,8 +15,13 @@ import { starRating } from '../components/starRating.js';
 import { commentsCard } from './commentChipsView.js';
 import { navigate } from './router.js';
 
-function beanHeader(bean) {
-  return el('div', { class: 'main-bean' },
+// Hero: the bag cut-out (when photographed) floats on an accent halo beside
+// the bean name — the same bag you see in the painting and on the shelf.
+function beanHero(bean, photoUrl) {
+  return el('div', { class: `main-bean${photoUrl ? ' has-photo' : ''}` },
+    photoUrl
+      ? el('div', { class: 'main-bean-photo' }, el('img', { src: photoUrl, alt: '' }))
+      : null,
     el('div', { class: 'main-bean-text' },
       el('div', { class: 'main-bean-name' }, [bean.roastery, bean.name].filter(Boolean).join(' — ')),
       el('div', { class: 'main-bean-origin' }, bean.origin || ''),
@@ -26,45 +34,40 @@ function beanHeader(bean) {
   );
 }
 
-// The per-user panel re-renders on user switch; bean header and switcher stay.
-async function renderUserPanel(panel, bean, userId) {
-  const [grindRow, ratings] = await Promise.all([
-    getGrind(bean.id, userId),
-    getCurrentRatings(bean.id, userId),
-  ]);
+// Ratings are the one thing that stays personal — the user tabs live inside
+// this card and only swap the star rows.
+function ratingsCard(bean, users, initialUserId, onUserChange) {
+  const rowsBox = el('div', { class: 'rating-rows' });
 
-  const grindCard = el('div', { class: 'card main-card' },
-    el('h3', { class: 'section-title' }, STRINGS.grindTitle),
-    stepper(grindRow ? grindRow.value : CONFIG.grindDefault, (next) =>
-      setGrind(bean.id, userId, next),
-    ),
-  );
-
-  const ratingRows = MILK_TYPES.map((milk) =>
-    el('div', { class: 'rating-row' },
-      el('span', { class: 'rating-label' }, milk.label),
-      starRating(ratings[milk.id] ? ratings[milk.id].stars : 0, (stars) =>
-        addRating(bean.id, userId, milk.id, stars),
+  async function renderRows(userId) {
+    const ratings = await getCurrentRatings(bean.id, userId);
+    rowsBox.replaceChildren(
+      ...MILK_TYPES.map((milk) =>
+        el('div', { class: 'rating-row' },
+          el('span', { class: 'rating-label' }, milk.label),
+          starRating(ratings[milk.id] ? ratings[milk.id].stars : 0, (stars) =>
+            addRating(bean.id, userId, milk.id, stars),
+          ),
+        ),
       ),
-    ),
-  );
+    );
+  }
 
-  const ratingsCard = el('div', { class: 'card main-card' },
+  renderRows(initialUserId);
+
+  return el('div', { class: 'card main-card ratings-card' },
     el('h3', { class: 'section-title' }, STRINGS.ratingsTitle),
-    ratingRows,
+    userSwitcher(users, initialUserId, (userId) => {
+      onUserChange(userId);
+      renderRows(userId);
+    }),
+    rowsBox,
   );
-
-  const leftColumn = el('div', { class: 'main-column' },
-    grindCard,
-    commentsCard(bean.id, userId),
-  );
-
-  panel.replaceChildren(leftColumn, ratingsCard);
 }
 
 // One-tap switcher between open bags. Always visible once anything is open —
 // the trailing "+ Open bag" chip makes the multi-bag feature discoverable.
-function beanBar(openBeans, currentId) {
+function beanBar(openBeans, currentId, photoUrls) {
   return el('div', { class: 'bean-bar' },
     openBeans.map((bean) =>
       el('button', {
@@ -75,7 +78,13 @@ function beanBar(openBeans, currentId) {
           await selectCurrentBean(bean.id);
           navigate('main');
         },
-      }, [bean.roastery, bean.name].filter(Boolean).join(' — ')),
+      },
+        photoUrls.get(bean.id)
+          ? el('img', { class: 'bean-bar-thumb', src: photoUrls.get(bean.id), alt: '' })
+          : null,
+        el('span', { class: 'bean-bar-label' },
+          [bean.roastery, bean.name].filter(Boolean).join(' — ')),
+      ),
     ),
     el('button', {
       type: 'button',
@@ -100,25 +109,42 @@ export async function renderMain(container) {
   }
 
   openBeans.sort((a, b) => a.dateAdded.localeCompare(b.dateAdded));
-  container.appendChild(beanBar(openBeans, bean.id));
 
-  const [users, lastUserId] = await Promise.all([getAllUsers(), getLastActiveUserId()]);
+  const [users, lastUserId, grindRow, photoUrl, photoUrls] = await Promise.all([
+    getAllUsers(),
+    getLastActiveUserId(),
+    getGrind(bean.id),
+    getPhotoUrl(bean.id),
+    getAllPhotoUrls(),
+  ]);
   // Keep the fixed display order from constants, not store order.
   users.sort((a, b) => {
     const order = ['mareike', 'frenzi', 'guest'];
     return order.indexOf(a.id) - order.indexOf(b.id);
   });
 
-  const panel = el('div', { class: 'main-panel' });
+  // Notes are shared but signed — attribute them to whoever is on the tabs.
+  let activeUserId = users.some((u) => u.id === lastUserId) ? lastUserId : users[0].id;
 
-  container.appendChild(beanHeader(bean));
-  container.appendChild(
-    userSwitcher(users, lastUserId, (userId) => {
-      setLastActiveUserId(userId);
-      renderUserPanel(panel, bean, userId);
-    }),
+  const grindCard = el('div', { class: 'card main-card' },
+    el('h3', { class: 'section-title' }, STRINGS.grindTitle),
+    stepper(grindRow ? grindRow.value : CONFIG.grindDefault, (next) =>
+      setGrind(bean.id, next),
+    ),
+    el('p', { class: 'card-note' }, STRINGS.grindSharedNote),
   );
-  container.appendChild(panel);
 
-  await renderUserPanel(panel, bean, lastUserId);
+  const leftColumn = el('div', { class: 'main-column' },
+    grindCard,
+    commentsCard(bean.id, () => activeUserId),
+  );
+
+  const rightColumn = ratingsCard(bean, users, activeUserId, (userId) => {
+    activeUserId = userId;
+    setLastActiveUserId(userId);
+  });
+
+  container.appendChild(beanBar(openBeans, bean.id, photoUrls));
+  container.appendChild(beanHero(bean, photoUrl));
+  container.appendChild(el('div', { class: 'main-panel' }, leftColumn, rightColumn));
 }
