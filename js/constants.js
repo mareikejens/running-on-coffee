@@ -174,6 +174,7 @@ export const STRINGS = {
   idleDiag: (d) =>
     `Painting: shown ${d.idleShownCount}× since launch · last activity ${d.secondsSinceActivity}s ago` +
     (d.lastError ? ` · last error: ${d.lastError}` : ''),
+  cacheDiag: (names) => `App cache: ${names.length ? names.join(', ') : 'none (offline shell not cached yet)'}`,
 
   // Toasts
   beanSaved: 'Bean saved.',

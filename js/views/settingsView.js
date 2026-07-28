@@ -9,9 +9,10 @@ import { navigate } from './router.js';
 import { showToast } from '../components/toast.js';
 
 export async function renderSettings(container) {
-  const [lastExportAt, persisted] = await Promise.all([
+  const [lastExportAt, persisted, cacheNames] = await Promise.all([
     getMeta('lastExportAt'),
     getMeta('storagePersisted'),
+    'caches' in window ? caches.keys() : Promise.resolve([]),
   ]);
 
   const days = lastExportAt ? daysSince(lastExportAt) : null;
@@ -69,6 +70,7 @@ export async function renderSettings(container) {
           class: `settings-note${persisted ? '' : ' settings-warn'}`,
         }, persisted ? STRINGS.storagePersisted : STRINGS.storageNotPersisted),
         el('p', { class: 'settings-note' }, STRINGS.idleDiag(getIdleDiagnostics())),
+        el('p', { class: 'settings-note' }, STRINGS.cacheDiag(cacheNames)),
       ),
     ),
   );
