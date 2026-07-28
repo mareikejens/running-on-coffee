@@ -6,6 +6,7 @@ import { getBean, getCurrentBean } from '../db/beans.js';
 import { getRatingHistory } from '../db/ratings.js';
 import { getCommentsForBean } from '../db/comments.js';
 import { getAllUsers } from '../db/users.js';
+import { getPhotoUrl } from '../db/photos.js';
 import { formatDate } from '../utils/format.js';
 import { navigate } from './router.js';
 
@@ -27,10 +28,11 @@ export async function renderHistory(container, params = {}) {
     return;
   }
 
-  const [ratings, comments, users] = await Promise.all([
+  const [ratings, comments, users, photoUrl] = await Promise.all([
     getRatingHistory(bean.id),
     getCommentsForBean(bean.id),
     getAllUsers(),
+    getPhotoUrl(bean.id),
   ]);
 
   const userName = (id) => {
@@ -45,6 +47,7 @@ export async function renderHistory(container, params = {}) {
   container.appendChild(
     el('div', { class: 'history-header' },
       el('button', { class: 'btn', onClick: () => navigate('main') }, STRINGS.historyBack),
+      photoUrl ? el('img', { class: 'history-bean-photo', src: photoUrl, alt: '' }) : null,
       el('div', { class: 'history-bean' },
         el('div', { class: 'bean-row-name' }, [bean.roastery, bean.name].filter(Boolean).join(' — ')),
         el('div', { class: 'bean-row-meta' }, bean.origin || ''),

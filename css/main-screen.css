@@ -1,7 +1,8 @@
-/* Main screen — active bean, user switcher, grind + ratings */
+/* Main screen — bean hero with bag cut-out, shared grind + notes, per-user ratings */
 .main-bean {
   display: flex;
   align-items: center;
+  gap: var(--sp-4);
   margin-bottom: var(--sp-3);
 }
 
@@ -10,6 +11,33 @@
   text-align: center;
   /* keep the name optically centered despite the History button */
   padding-left: 120px;
+}
+
+/* With a bag photo the hero becomes a left-aligned still life: the photo
+   balances the History button, so the centering pad goes away. */
+.main-bean.has-photo .main-bean-text {
+  text-align: left;
+  padding-left: 0;
+}
+
+/* The cut-out floats on an ember halo — the app's visual signature. A soft
+   radial tint, a slight tilt, and a drop shadow seat the bag on the page. */
+.main-bean-photo {
+  flex-shrink: 0;
+  width: 148px;
+  height: 148px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, var(--accent-soft) 78%, rgba(251, 227, 214, 0) 100%);
+}
+
+.main-bean-photo img {
+  max-width: 124px;
+  max-height: 132px;
+  transform: rotate(-2deg);
+  filter: drop-shadow(0 10px 14px rgba(43, 29, 20, 0.28));
 }
 
 .main-history-btn {
@@ -41,6 +69,9 @@
 
 .bean-bar-chip {
   flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
   min-height: 52px;
   max-width: 320px;
   padding: 0 var(--sp-3);
@@ -50,8 +81,21 @@
   font-weight: 600;
   color: var(--ink-soft);
   white-space: nowrap;
+}
+
+.bean-bar-label {
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.bean-bar-thumb {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  padding: 2px;
 }
 
 .bean-bar-chip.is-selected {
@@ -60,17 +104,21 @@
   color: #fff;
 }
 
+.bean-bar-chip.is-selected .bean-bar-thumb {
+  background: #fff;
+}
+
 .bean-bar-add {
   border-style: dashed;
   background: transparent;
   color: var(--ink-faint);
 }
 
-/* User switcher */
+/* User tabs — now live inside the ratings card, the one per-person corner */
 .user-switcher {
   display: flex;
   gap: var(--sp-2);
-  margin-bottom: var(--sp-4);
+  margin-bottom: var(--sp-3);
 }
 
 .user-tab {
@@ -78,7 +126,7 @@
   min-height: var(--tap-min);
   border-radius: var(--radius);
   border: 1px solid var(--line);
-  background: var(--paper-raised);
+  background: var(--paper-sunken);
   font-size: var(--text-lg);
   font-weight: 700;
   color: var(--ink-soft);
@@ -87,10 +135,10 @@
 .user-tab.is-selected {
   background: var(--ink);
   border-color: var(--ink);
-  color: var(--paper);
+  color: var(--paper-raised);
 }
 
-/* Two-column panel: grind left, ratings right */
+/* Two-column panel: shared grind + notes left, personal ratings right */
 .main-panel {
   display: flex;
   gap: var(--sp-4);
@@ -108,7 +156,11 @@
   gap: var(--sp-4);
 }
 
-/* Recent notes on the main screen */
+.ratings-card {
+  flex: 1;
+}
+
+/* Recent notes on the main screen — shared card, signed with author tags */
 .recent-notes {
   margin-bottom: var(--sp-3);
 }
@@ -118,6 +170,17 @@
   font-size: var(--text-base);
 }
 
+.recent-note-author {
+  display: inline-block;
+  padding: 1px 10px;
+  margin-right: var(--sp-2);
+  border-radius: 999px;
+  background: var(--accent-2-soft);
+  color: var(--accent-2);
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
 .recent-note-text {
   font-family: var(--font-display);
 }
@@ -125,6 +188,7 @@
 .recent-note-meta {
   color: var(--ink-faint);
   font-size: var(--text-sm);
+  margin-left: var(--sp-2);
 }
 
 .recent-note-more {
@@ -150,6 +214,7 @@
   font-size: 48px;
   font-weight: 600;
   line-height: 1;
+  color: var(--accent-deep);
 }
 
 .stepper-btn:active {

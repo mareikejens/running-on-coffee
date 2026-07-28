@@ -63,6 +63,7 @@ export const STRINGS = {
 
   // Main screen
   grindTitle: 'Grind setting',
+  grindSharedNote: 'One dial for the whole house.',
   ratingsTitle: 'Ratings',
   mainNoActiveBean: 'No open bag right now.',
   beanBarOpenAnother: '+ Open bag',

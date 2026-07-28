@@ -30,3 +30,9 @@ button {
 ul, ol {
   list-style: none;
 }
+
+/* Author display values (e.g. .btn's inline-flex) override the UA's [hidden]
+   rule — restore the expected behavior everywhere. */
+[hidden] {
+  display: none !important;
+}

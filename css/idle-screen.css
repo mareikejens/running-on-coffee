@@ -39,16 +39,22 @@
   max-width: 1100px;
 }
 
+/* The cut-out floats on a soft ember halo — static, no animation, and the
+   burn-in shift moves the whole composition so the halo shifts with it. */
 .idle-photo {
   flex: 0 0 auto;
+  padding: var(--sp-5);
+  border-radius: 50%;
+  background: radial-gradient(closest-side, var(--accent-soft) 72%, rgba(251, 227, 214, 0) 100%);
 }
 
 .idle-photo img {
   display: block;
-  max-height: 56vh;
-  max-width: 34vw;
+  max-height: 50vh;
+  max-width: 30vw;
   border-radius: 12px; /* invisible on cut-outs, tidies "keep photo" shots */
-  filter: drop-shadow(0 16px 26px rgba(43, 33, 24, 0.25));
+  transform: rotate(-2deg);
+  filter: drop-shadow(0 16px 26px rgba(43, 29, 20, 0.28));
 }
 
 .idle-content.has-photo .idle-bean-name {
@@ -72,7 +78,7 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.35em;
-  color: var(--ink-faint);
+  color: var(--accent-deep);
   margin-bottom: var(--sp-4);
 }
 
@@ -96,9 +102,10 @@
 }
 
 .idle-divider {
-  width: 120px;
-  height: 1px;
-  background: var(--line);
+  width: 64px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--accent);
   margin: var(--sp-5) auto;
 }
 

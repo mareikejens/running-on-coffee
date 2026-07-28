@@ -3,6 +3,27 @@
 Things that can only be verified on the physical iPad (iOS 16.7, Safari 16).
 Simulation covers everything else. Check these during the on-device session.
 
+## v0.12 — redesign + merged grind/notes, verify on device
+
+- [ ] **Shared grind setting** — the grind card no longer depends on the
+  selected user tab. Until the dial is touched for a bean, it shows the most
+  recently saved of the old per-user values; the first −/+ tap saves it as
+  the shared house value. Old per-user rows stay in the data (and in
+  exports) untouched.
+- [ ] **Shared notes card** — one Notes card for everyone; each note carries
+  a teal author tag (the author is whoever is selected on the ratings tabs
+  when the note is saved — check the tag is right after switching tabs).
+- [ ] **Ratings stay personal** — the name tabs moved inside the Ratings
+  card and only swap the star rows.
+- [ ] **Bag photo when selected** — the brewing bean's cut-out shows next to
+  its name on the main screen (on the ember halo), as a small round thumb in
+  the open-bags bar, and in the History header.
+- [ ] **New palette on the device screen** — cream background, ember-orange
+  accents, teal author tags; check colors and text contrast on the actual
+  iPad panel (it renders warmer than desktop displays).
+- [ ] **"Remove photo" no longer shows on an empty photo field** (global
+  `[hidden]` fix — spot-check no previously hidden element became visible).
+
 ## v0.6 re-test (after the first on-device round)
 
 Fixes for the 2026-07 device feedback — verify on the iPad:
