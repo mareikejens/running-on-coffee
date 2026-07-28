@@ -17,6 +17,13 @@ export async function registerServiceWorker() {
         }
       });
     });
+
+    // A backgrounded-then-foregrounded standalone iOS app is a resume, not a
+    // real navigation, so the browser's implicit update check often never
+    // runs. Ask explicitly every time the app becomes visible again.
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') registration.update();
+    });
   } catch (err) {
     // Offline-first still works via cache from a previous registration;
     // log, don't break boot.
